@@ -115,16 +115,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Click：以區域為單位的選取 + 縮放 + 面板
     rect.addEventListener("click", () => {
-      selectedRegion = region;
-      clearRegionHover();
+      // 重點：縮小地圖 + 展開 Info 面板
+      document.querySelector(".map-container")?.classList.add("shrinked");
+      document.getElementById("info-container")?.classList.add("expanded");
+
+      // 聚焦地圖與更新內容
       focusRegion(region);
-      zoomToBox(box, 24);
+      zoomToBox(getRegionBBox(region));
       showRegionInfo(region);
       loadSlideshowFor(region);
-
-      if (window.innerWidth <= 768) {
-        document.getElementById("info-container")?.scrollIntoView({ behavior: "smooth" });
-      }
     });
 
     // 可選：加入 aria-label 讓輔助工具更友善
@@ -145,6 +144,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const resetBtn = document.getElementById("reset-btn");
   if (resetBtn) {
     resetBtn.addEventListener("click", () => {
+      document.querySelector(".map-container")?.classList.remove("shrinked");
+      document.getElementById("info-container")?.classList.remove("expanded");
       resetView(); // 回復原始視角
       const infoEl = document.getElementById("info-container");
       if (infoEl) infoEl.style.display = "none"; // 隱藏資訊面板

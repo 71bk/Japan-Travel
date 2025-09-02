@@ -38,7 +38,12 @@ const regionPhotos = {
     "./image/pic/九州沖繩/熊本城.jpg",
     "./image/pic/九州沖繩/沖繩美麗海水族館.jpg",
     "./image/pic/中部/金澤兼六園.jpg"
-  ]
+  ],
+    "近畿": [
+    "./image/pic/近畿/伏見稻荷大社.jpg",
+    "./image/pic/九州沖繩/沖繩美麗海水族館.jpg",
+    "./image/pic/中部/金澤兼六園.jpg"
+  ],
 
 
 

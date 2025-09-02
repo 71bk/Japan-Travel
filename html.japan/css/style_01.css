@@ -1,4 +1,3 @@
-
 /* === 全域版面與排版 Global Layout & Base === */
 body {
     font-family: Arial, sans-serif;
@@ -314,26 +313,33 @@ svg path.hover-dim {
 .mySlides {
     display: none;
     position: relative;
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: visible;
+    /* 避免裁切 */
 }
 
 
 /* === 投影片：圖片 Image === */
-.mySlides img {
+/* .mySlides img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-}
+} */
 
 /* === 投影片：標題 Caption === */
 .mySlides .caption {
-  position: absolute;
-  top: 8px;
-  left: 12px;
-  background: rgba(0, 0, 0, 0.5);
-  color: white;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: clamp(14px, 2.5vw, 20px);
+    position: absolute;
+    top: 8px;
+    left: 12px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: clamp(14px, 2.5vw, 20px);
 }
 
 
@@ -469,143 +475,230 @@ svg path.hover-dim {
 /* 字形 */
 
 /* === 設計系統：字型大小/行高/顏色 Design Tokens === */
-:root{
-  --font-sans: "Noto Sans TC", system-ui, -apple-system, Segoe UI, Roboto, Arial, "Microsoft JhengHei", sans-serif;
-  --text-1: clamp(14px, 1.5vw, 16px);     /* 內文 */
-  --text-2: clamp(16px, 1.8vw, 18px);     /* 次要標題/重點 */
-  --h6:     clamp(16px, 2.0vw, 20px);
-  --h5:     clamp(18px, 2.4vw, 24px);
-  --h4:     clamp(20px, 3.0vw, 28px);
-  --h3:     clamp(22px, 3.5vw, 32px);
-  --h2:     clamp(26px, 4.2vw, 42px);
-  --h1:     clamp(32px, 5.0vw, 56px);
+:root {
+    --font-sans: "Noto Sans TC", system-ui, -apple-system, Segoe UI, Roboto, Arial, "Microsoft JhengHei", sans-serif;
+    --text-1: clamp(14px, 1.5vw, 16px);
+    /* 內文 */
+    --text-2: clamp(16px, 1.8vw, 18px);
+    /* 次要標題/重點 */
+    --h6: clamp(16px, 2.0vw, 20px);
+    --h5: clamp(18px, 2.4vw, 24px);
+    --h4: clamp(20px, 3.0vw, 28px);
+    --h3: clamp(22px, 3.5vw, 32px);
+    --h2: clamp(26px, 4.2vw, 42px);
+    --h1: clamp(32px, 5.0vw, 56px);
 
-  --lh-tight: 1.25;
-  --lh-base:  1.7;
-  --lh-loose: 1.9;
+    --lh-tight: 1.25;
+    --lh-base: 1.7;
+    --lh-loose: 1.9;
 
-  --muted:   rgba(255,255,255,.75);   /* 深色底用 */
-  --ink:     #1f2937;                  /* 淺色底字色 */
-  --ink-2:   #4b5563;                  /* 次要文字 */
-  --brand:   #0d6efd;                  /* Bootstrap 主色（可改） */
+    --muted: rgba(255, 255, 255, .75);
+    /* 深色底用 */
+    --ink: #1f2937;
+    /* 淺色底字色 */
+    --ink-2: #4b5563;
+    /* 次要文字 */
+    --brand: #0d6efd;
+    /* Bootstrap 主色（可改） */
 }
 
 /* 2) 全域（兩端都受益） */
 
 /* === 全域版面（字型設定） Global Typography Base === */
-html, body{ font-family: var(--font-sans); }
-body{ font-size: var(--text-1); line-height: var(--lh-base); }
+html,
+body {
+    font-family: var(--font-sans);
+}
+
+body {
+    font-size: var(--text-1);
+    line-height: var(--lh-base);
+}
 
 /* 3) 左側深色區（影片上方） */
-.map_title{
-  font-size: var(--h1);
-  font-weight: 800;
-  letter-spacing: .02em;
-  text-shadow: 0 2px 16px rgba(0,0,0,.35); /* 提高對比 */
+.map_title {
+    font-size: var(--h1);
+    font-weight: 800;
+    letter-spacing: .02em;
+    text-shadow: 0 2px 16px rgba(0, 0, 0, .35);
+    /* 提高對比 */
 }
-.map_tip{
-  color: var(--muted);
-  font-size: var(--text-2);
-  letter-spacing: .01em;
+
+.map_tip {
+    color: var(--muted);
+    font-size: var(--text-2);
+    letter-spacing: .01em;
 }
 
 /* 4) 右側 info 面板（淺色底） */
 
 /* === 資訊面板：字色設定 Info Text Color === */
-#info-container{
-  color: var(--ink);
+#info-container {
+    color: var(--ink);
 }
-#region-name{
-  font-weight: 800;
-  letter-spacing: .01em;
+
+#region-name {
+    font-weight: 800;
+    letter-spacing: .01em;
 }
 
 /* === 資訊面板：清單正文 Lists Typography === */
-#spots, #festivals{
-  font-size: var(--text-1);
-  line-height: var(--lh-loose);
-  color: var(--ink);
+#spots,
+#festivals {
+    font-size: var(--text-1);
+    line-height: var(--lh-loose);
+    color: var(--ink);
 }
 
 /* === 資訊面板：粗體標籤 Strong Labels === */
-#spots strong, #festivals strong{
-  color: var(--ink);
-  font-weight: 700;
+#spots strong,
+#festivals strong {
+    color: var(--ink);
+    font-weight: 700;
 }
 
 /* === 資訊面板：次要標籤 Secondary Labels === */
-#spots .label, #festivals .label{ /* 若你有用到標籤字樣 */
-  color: var(--ink-2);
-  font-weight: 600;
+#spots .label,
+#festivals .label {
+    /* 若你有用到標籤字樣 */
+    color: var(--ink-2);
+    font-weight: 600;
 }
+
 .spot-text {
-  font-size: 18px;  /* 後面內容字體大小 */
+    font-size: 18px;
+    /* 後面內容字體大小 */
 }
 
 /* 5) 小標題/區塊標 */
-.section h4, .section h5{
-  font-weight: 700;
-  line-height: var(--lh-tight);
-  margin: .75rem 0 .5rem;
+.section h4,
+.section h5 {
+    font-weight: 700;
+    line-height: var(--lh-tight);
+    margin: .75rem 0 .5rem;
 }
 
 /* 6) 清單（看起來更整齊） */
-#spots ul, #festivals ul{
-  margin: .25rem 0 .75rem 1.25rem;
-  padding: 0;
+#spots ul,
+#festivals ul {
+    margin: .25rem 0 .75rem 1.25rem;
+    padding: 0;
 }
-#spots li, #festivals li{
-  margin: .15rem 0;
+
+#spots li,
+#festivals li {
+    margin: .15rem 0;
 }
 
 /* 7) 投影片 caption（不遮圖又好讀） */
-.slideshow-container .caption{
-  font-size: clamp(14px, 2.2vw, 18px);
-  line-height: var(--lh-tight);
-  font-weight: 600;
-  letter-spacing: .01em;
-  color: #fff;
-  text-shadow: 0 1px 8px rgba(0,0,0,.6);
+.slideshow-container .caption {
+    font-size: clamp(14px, 2.2vw, 18px);
+    line-height: var(--lh-tight);
+    font-weight: 600;
+    letter-spacing: .01em;
+    color: #fff;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, .6);
 }
 
 /* 8) 控制項（選單/按鈕的字） */
 
 /* === 控制項：月份選擇 Month Select === */
-#month-select{
-  font-size: var(--text-1);
+#month-select {
+    font-size: var(--text-1);
 }
 
 /* === 控制項：按鈕 Buttons === */
-.btn, button{
-  font-weight: 600;
-  letter-spacing: .02em;
+.btn,
+button {
+    font-weight: 600;
+    letter-spacing: .02em;
 }
 
 /* 9) 輕量的強調色（連結/互動字色） */
 
 /* === 連結 Links === */
-a{ color: var(--brand); }
+a {
+    color: var(--brand);
+}
 
 /* === 連結 Hover === */
-a:hover{ color: #0b5ed7; }
+a:hover {
+    color: #0b5ed7;
+}
 
 /* 10) 細節：數字對齊、英文/數字更穩 */
 
 /* === 數字對齊 Tabular Numbers === */
-.num, .digit{ font-variant-numeric: tabular-nums; }
+.num,
+.digit {
+    font-variant-numeric: tabular-nums;
+}
 
 /* 11) 斷行與長字處理（避免擠出容器） */
 
 /* === 文字斷行 Overflow Wrap === */
-#spots, #festivals, .caption{
-  overflow-wrap: anywhere;
-  word-break: break-word;
+#spots,
+#festivals,
+.caption {
+    overflow-wrap: anywhere;
+    word-break: break-word;
 }
 
 /* 12) 手機優化（字距放鬆、標題略小） */
 
 /* === 響應式：手機 (<=576px) === */
-@media (max-width: 576px){
-  body{ line-height: var(--lh-loose); }
-  .map_title{ font-size: var(--h2); }
+@media (max-width: 576px) {
+    body {
+        line-height: var(--lh-loose);
+    }
+
+    .map_title {
+        font-size: var(--h2);
+    }
+}
+
+/* 地圖縮小版樣式 */
+.map-container.shrinked {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 250px;
+    max-height: 250px;
+    z-index: 999;
+    transform: scale(0.6);
+    transform-origin: top left;
+}
+
+/* 地圖縮小時隱藏影片與提示文字 */
+.map-container.shrinked .bg-video,
+.map-container.shrinked .map_tip,
+.map-container.shrinked .map_title {
+    display: none;
+}
+
+/* 全螢幕 Info 面板 */
+.info-container.expanded {
+    display: block;
+    flex: 1;
+    width: 100%;
+    max-width: none;
+    height: 100vh;
+    overflow-y: auto;
+    background: #fff;
+    padding: 40px;
+    z-index: 998;
+}
+
+.info-container.expanded .slideshow-container {
+  width: 90%;
+  max-width: 600px;      /* 原本是 900px，這裡縮小 */
+  height: auto;
+  margin: 20px auto;
+  aspect-ratio: unset;
+}
+
+.mySlides img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
 }
