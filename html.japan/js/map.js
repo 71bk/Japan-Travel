@@ -3,7 +3,6 @@
 import { regionMap, buildRegionIndex } from "./data.js"; // 區域資料 & 對照表
 import { showRegionInfo } from "./info.js";              // 顯示區域資訊面板
 import { loadSlideshowFor } from "./slideshow.js";       // 載入對應區域投影片
-import { showBar, hideBar } from "./bar.js";
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -117,8 +116,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Click：以區域為單位的選取 + 縮放 + 面板
     rect.addEventListener("click", () => {
-      // ✅ 顯示導覽列（bar）
-      showBar(region); // 傳入選擇的地區名稱
 
       // ✅ 顯示 info-panel
       const infoPanel = document.getElementById("info-container");
