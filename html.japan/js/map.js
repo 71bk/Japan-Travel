@@ -3,6 +3,8 @@
 import { regionMap, buildRegionIndex } from "./data.js"; // 區域資料 & 對照表
 import { showRegionInfo } from "./info.js";              // 顯示區域資訊面板
 import { loadSlideshowFor } from "./slideshow.js";       // 載入對應區域投影片
+import { showBar, hideBar } from "./bar.js";
+
 
 document.addEventListener("DOMContentLoaded", () => {
   // ========== 抓取 SVG 與初始狀態 ==========
@@ -115,11 +117,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Click：以區域為單位的選取 + 縮放 + 面板
     rect.addEventListener("click", () => {
-      // 重點：縮小地圖 + 展開 Info 面板
-      document.querySelector(".map-container")?.classList.add("shrinked");
-      document.getElementById("info-container")?.classList.add("expanded");
+      // ✅ 顯示導覽列（bar）
+      showBar(region); // 傳入選擇的地區名稱
 
-      // 聚焦地圖與更新內容
+      // ✅ 顯示 info-panel
+      const infoPanel = document.getElementById("info-container");
+      if (infoPanel) {
+        infoPanel.classList.remove("hidden");
+        infoPanel.style.display = "block";
+      }
+
+      // ✅ 地圖縮小 + 資訊展開
+      document.querySelector(".map-container")?.classList.add("shrinked");
+      infoPanel?.classList.add("expanded");
+
+      // ✅ 更新地圖與資料
       focusRegion(region);
       zoomToBox(getRegionBBox(region));
       showRegionInfo(region);
@@ -146,9 +158,18 @@ document.addEventListener("DOMContentLoaded", () => {
     resetBtn.addEventListener("click", () => {
       document.querySelector(".map-container")?.classList.remove("shrinked");
       document.getElementById("info-container")?.classList.remove("expanded");
-      resetView(); // 回復原始視角
+      resetView();
+
+      // ✅ 隱藏 info panel
       const infoEl = document.getElementById("info-container");
-      if (infoEl) infoEl.style.display = "none"; // 隱藏資訊面板
+      if (infoEl) {
+        infoEl.style.display = "none";
+        infoEl.classList.add("hidden");
+      }
+
+      // ✅ 隱藏 bar
+      hideBar();
     });
   }
+
 });

@@ -655,6 +655,17 @@ a:hover {
     .map_title {
         font-size: var(--h2);
     }
+
+    .top-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .top-nav {
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
 }
 
 /* 地圖縮小版樣式 */
@@ -690,11 +701,12 @@ a:hover {
 }
 
 .info-container.expanded .slideshow-container {
-  width: 90%;
-  max-width: 600px;      /* 原本是 900px，這裡縮小 */
-  height: auto;
-  margin: 20px auto;
-  aspect-ratio: unset;
+    width: 90%;
+    max-width: 600px;
+    /* 原本是 900px，這裡縮小 */
+    height: auto;
+    margin: 20px auto;
+    aspect-ratio: unset;
 }
 
 .mySlides img {
