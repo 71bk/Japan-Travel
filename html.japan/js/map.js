@@ -164,8 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
         infoEl.classList.add("hidden");
       }
 
-      // ✅ 隱藏 bar
-      hideBar();
+      
     });
   }
 

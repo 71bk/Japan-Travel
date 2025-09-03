@@ -23,11 +23,29 @@ export function showRegionInfo(region) {
 
   infoEl.style.display = "block";
   nameEl.innerText = region;
-spotsEl.innerHTML = `
-  <strong>景點：</strong>
-  <span class="spot-text">${data[region].景點.join("、")}</span><br/>
-  <strong>美食：</strong>
-  <span class="spot-text">${data[region].美食.join("、")}</span>
+  spotsEl.innerHTML = `
+  <h4>景點 🗼</h4>
+    <div class="cards">
+      ${data[region].景點.map(spot => `
+        <div class="media-card">
+          <div class="media-text">
+            <h5>${spot}</h5>
+          </div>
+        </div>
+      `).join("")}
+    </div>
+
+    <h4>美食 🍜</h4>
+    <div class="cards">
+      ${data[region].美食.map(food => `
+        <div class="media-card">
+          <div class="media-text">
+            <h5>${food}</h5>
+            <p>${food} 的特色或說明</p>
+          </div>
+        </div>
+      `).join("")}
+    </div>
 `;
   updateFestival(region);
 
