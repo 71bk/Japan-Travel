@@ -2,8 +2,15 @@
 import { data } from "./data.js";
 
 let infoEl, nameEl, spotsEl, festivalsEl, foodsEl, monthSelect;
-// 預設為目前月份（1~12）
-let selectedMonth = new Date().getMonth() + 1;
+
+// ---- 全域狀態 ----
+let selectedMonth = new Date().getMonth() + 1; // 1~12：預設當月
+let currentRegion = null;
+let monthSelectBound = false; // 確保只綁一次 change 事件
+
+// ---- 小工具：把資料正規化為 { 名稱, 說明 } ----
+const normalizeItem = (it) =>
+  typeof it === "string" ? { 名稱: it, 說明: "" } : (it || { 名稱: "", 說明: "" });
 
 // 取得 DOM 參照
 document.addEventListener("DOMContentLoaded", () => {
@@ -16,27 +23,72 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /**
- * 依 selectedMonth 渲染慶典卡片
+ * 依目前 region 配置月份下拉選單：
+ * - 第一次初始化建立 1~12 月
+ * - 將沒有資料的月份設為 disabled（用「字串鍵」檢查）
+ * - 不自動 fallback，保留使用者選擇
+ */
+function setupMonthSelect(region) {
+  const monthMap = (data[region] && data[region].慶典) || {};
+
+  if (!monthSelect) return;
+
+  // 第一次初始化下拉（建立 1~12 月）
+  if (!monthSelect.dataset.initialised) {
+    monthSelect.innerHTML = Array.from({ length: 12 }, (_, i) => {
+      const m = i + 1;
+      return `<option value="${m}">${m}月</option>`;
+    }).join("");
+    monthSelect.dataset.initialised = "1";
+  }
+
+  // 依據當前 region，啟用/停用沒有資料的月份
+Array.from(monthSelect.options).forEach((opt) => {
+  const m = Number(opt.value);
+  const key = String(m);
+  const has = Array.isArray(monthMap[key]) && monthMap[key].length > 0;
+  opt.disabled = false;              // ★ 不禁用
+  opt.dataset.hasData = has ? "1" : "0"; // ★（可選）用來上樣式
+});
+  // 不再強制 fallback，保持使用者選擇
+  monthSelect.value = String(selectedMonth);
+
+  // 監聽只綁一次：使用者手動選月 → 更新 selectedMonth 並重渲染
+  if (!monthSelectBound) {
+    monthSelect.addEventListener("change", () => {
+      selectedMonth = Number(monthSelect.value);
+      renderFestivals(currentRegion); // 只更新慶典區
+    });
+    monthSelectBound = true;
+  }
+}
+
+/**
+ * 慶典渲染：尊重 selectedMonth，不在此改動使用者選擇
+ * 支援字串/物件兩種格式（都會正規化）
  */
 function renderFestivals(region) {
   if (!festivalsEl) return;
+  const monthMap = (data[region] && data[region].慶典) || {};
 
-  const list = data[region]?.慶典?.[selectedMonth] || [];
+  // 用「字串鍵」取出該月資料；無資料就顯示「本月無特別慶典」
+  const raw = Array.isArray(monthMap[String(selectedMonth)]) ? monthMap[String(selectedMonth)] : [];
+  const list = raw.map(normalizeItem);
+
   festivalsEl.innerHTML = `
     <div class="cards">
-      ${list.length > 0
-      ? list
-        .map(
-          (f) => `
-          <div class="media-card">
-            <div class="media-text">
-              <h5>${f}</h5>
-            </div>
-          </div>`
-        )
-        .join("")
-      : `<p>本月無特別慶典</p>`
-    }
+      ${
+        list.length
+          ? list.map(f => `
+              <div class="media-card">
+                <div class="media-text">
+                  <h5>${f.名稱}</h5>
+                  ${f.說明 ? `<p>${f.說明}</p>` : ""}
+                </div>
+              </div>
+            `).join("")
+          : `<p>本月無特別慶典</p>`
+      }
     </div>
   `;
 }
@@ -48,61 +100,43 @@ export function showRegionInfo(region) {
   if (!region || !data[region]) return;
   if (!infoEl || !spotsEl || !foodsEl || !festivalsEl) return;
 
+  currentRegion = region;
+
   // 顯示面板與標題
   infoEl.style.display = "block";
-  nameEl && (nameEl.innerText = region);
+  if (nameEl) nameEl.innerText = region;
 
   // 1) 景點
-  const spots = data[region].景點 || [];
+  const spots = (data[region].景點 || []).map(normalizeItem);
   spotsEl.innerHTML = `
     <h4>景點 🗼</h4>
     <div class="cards">
-      ${spots
-      .map(
-        (spot) => `
+      ${spots.map(spot => `
         <div class="media-card">
           <div class="media-text">
-            <h5>${spot}</h5>
+            <h5 class="intoduseName">${spot.名稱}</h5>
+            ${spot.說明 ? `<p>${spot.說明}</p>` : ""}
           </div>
-        </div>`
-      )
-      .join("")}
+        </div>`).join("")}
     </div>
   `;
 
   // 2) 美食
-  const foods = data[region].美食 || [];
+  const foods = (data[region].美食 || []).map(normalizeItem);
   foodsEl.innerHTML = `
     <h4>美食 🍜</h4>
     <div class="cards">
-      ${foods
-      .map(
-        (food) => `
+      ${foods.map(food => `
         <div class="media-card">
           <div class="media-text">
-            <h5>${food}</h5>
-            <p>${food} 的特色或說明</p>
+            <h5 class="intoduseName">${food.名稱}</h5>
+            ${food.說明 ? `<p>${food.說明}</p>` : ""}
           </div>
-        </div>`
-      )
-      .join("")}
+        </div>`).join("")}
     </div>
   `;
 
   // 3) 慶典（依月份）
-  renderFestivals(region);
-
-  // 月份選擇器（切換時重渲染慶典區）
-  if (monthSelect) {
-    // 若 HTML 預設有 selected，仍以目前 selectedMonth 為準
-    monthSelect.value = String(selectedMonth);
-    monthSelect.onchange = () => {
-      const v = parseInt(monthSelect.value, 10);
-      if (!Number.isNaN(v) && v >= 1 && v <= 12) {
-        selectedMonth = v;
-      }
-      // 只需更新慶典區塊即可（景點、美食不受月份影響）
-      renderFestivals(region);
-    };
-  }
+  setupMonthSelect(region); // 配置月份下拉（含禁用/預設，不 fallback）
+  renderFestivals(region);  // 渲染當前月份資料
 }

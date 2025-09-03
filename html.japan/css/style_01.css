@@ -1035,3 +1035,7 @@ a:hover {
 
 /* 收合狀態：只顯示圖示（標籤收起） */
 .category-rail.collapsed .tab { justify-content: center; padding: 10px 8px; }
+
+.intoduseName{
+    font-size: 100px;
+}
