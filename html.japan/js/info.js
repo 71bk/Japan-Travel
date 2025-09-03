@@ -23,7 +23,6 @@ function renderFestivals(region) {
 
   const list = data[region]?.慶典?.[selectedMonth] || [];
   festivalsEl.innerHTML = `
-    <h4>慶典 🎉</h4>
     <div class="cards">
       ${list.length > 0
       ? list

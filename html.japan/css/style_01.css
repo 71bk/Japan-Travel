@@ -31,6 +31,7 @@ body {
 
 /* === 右側資訊面板 Info Panel === */
 .info-container {
+    display: flex;
     flex: 1;
     padding: 20px;
     background: #fff;
@@ -263,12 +264,24 @@ svg path.hover-dim {
 
 /* === 資訊面板：區域名稱樣式 Region Heading === */
 #region-name {
-    text-align: center;
-    font-size: 30px;
-    background-color: chocolate;
-
-
+  position: inline-block;
+  top: 10px;              /* 黏在頂部 20px */
+  margin-left:30%;      /* 靠右關鍵 */
+  width: max-content;     /* 背景只包文字 */
+   min-width: 800px;   /* 背景至少 300px */
+  text-align: center; /* 讓文字在背景裡置中 */
+  padding: 10px 0;
+  font-size: clamp(20px, 4vw, 36px);
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 8px;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
 }
+
+
+
 
 /* 照片秀 */
 
@@ -519,10 +532,10 @@ body {
     color: var(--ink);
 }
 
-#region-name {
+/* #region-name {
     font-weight: 800;
     letter-spacing: .01em;
-}
+} */
 
 /* === 資訊面板：清單正文 Lists Typography === */
 #spots,
@@ -628,17 +641,6 @@ a:hover {
     word-break: break-word;
 }
 
-/* 地圖縮小版樣式 */
-.map-container.shrinked {
-    position: sticky;
-    top: 20px;
-    left: 20px;
-    width: 250px;
-    max-height: 250px;
-    z-index: 999;
-    transform: scale(0.6);
-    transform-origin: top left;
-}
 
 /* 地圖縮小時隱藏影片與提示文字 */
 .map-container.shrinked .bg-video,
@@ -654,7 +656,6 @@ a:hover {
     width: 100%;
     max-width: none;
     height: 100vh;
-    overflow-y: auto;
     background: #fff;
     padding: 40px;
     z-index: 998;
@@ -691,8 +692,6 @@ a:hover {
     gap: 60px;
     align-items: flex-start;
     margin-top: 20px;
-    margin-left: 60px;
-    padding-left: 150px
 }
 
 .slideshowWithDot .slideshow-container {
@@ -700,12 +699,6 @@ a:hover {
     margin: 10px 0;
 }
 
-#region-info,
-#spots {
-    flex: 1;
-    max-width: 45%;
-    order: 1;
-}
 
 .slideshowWithDot .dot-row {
     position: static;
@@ -774,14 +767,15 @@ a:hover {
 
 /* ===== Map 縮小與 Info 展開的對位調整（桌機） ===== */
 .map-container.shrinked {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    width: 320px;
-    max-height: 320px;
-    transform: scale(.75);
-    transform-origin: top left;
-    z-index: 999;
+  position: fixed;
+  top: 20px;       /* 與頂部的距離 */
+  left: 20px;      /* 與左邊的距離 */
+  width: 250px;    /* 縮小後的寬度 */
+  height: auto;
+  max-height: 250px;
+  z-index: 999;    /* 確保在最上層 */
+  transform: scale(0.6);
+  transform-origin: top left;
 }
 
 
@@ -854,13 +848,6 @@ a:hover {
         /* 手機單欄 */
     }
 
-    .map-container.shrinked {
-        top: 12px;
-        left: 12px;
-        width: 240px;
-        max-height: 240px;
-        transform: scale(.6);
-    }
 
     #info-container.expanded {
         margin-left: 0;
@@ -937,4 +924,23 @@ a:hover {
 
 .info-row>.section.festival {
     order: 3;
+}
+#spots, 
+#foods, 
+#festivals {
+  width: 100%;         /* 撐滿父容器 */
+  box-sizing: border-box;
+  padding: 12px 16px;  /* 留點內距 */
+  border-radius: 8px;  /* 卡片圓角 */
+}
+
+/* 保持各自的杏色系背景 */
+#spots {
+  background-color: #FFE0C0; /* 偏米杏 */
+}
+#foods {
+  background-color: #F5D6A0; /* 杏黃色 */
+}
+#festivals {
+  background-color: #FFF4E0; /* 淡杏米色 */
 }
