@@ -1,4 +1,6 @@
-video/* === 全域版面與排版 Global Layout & Base === */
+video
+
+/* === 全域版面與排版 Global Layout & Base === */
 body {
     font-family: Arial, sans-serif;
     display: flex;
@@ -41,9 +43,10 @@ body {
 
 /* === 資訊面板區塊基礎 Section Spacing === */
 .section {
-    margin-bottom: 20px;
+    flex: 1 1 0;
+    min-width: 280px;
+    /* 避免過窄 */
 }
-
 
 /* === 地圖：強調區域 Highlight Fill === */
 .highlight {
@@ -98,8 +101,774 @@ svg path:hover {
 
 
 
-/* === 響應式：平板與以下 (<=768px) === */
+
+
+/* === 動畫：資訊面板淡入 Animation: fadeIn === */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Smooth zoom for whole SVG */
+
+/* === 地圖：整體縮放轉場 SVG Global Transition === */
+svg {
+    transition: all 0.6s ease;
+}
+
+/* Focus region vs others */
+
+/* === 地圖互動：聚焦 Focus === */
+svg path.focus {
+    fill: orange !important;
+    stroke: black;
+    stroke-width: 1.5;
+    transform-origin: center;
+    transform-box: fill-box;
+}
+
+
+/* === 地圖互動：淡化 Dimmed === */
+svg path.dimmed {
+    opacity: 0.25;
+    filter: grayscale(60%);
+}
+
+/* Hover 效果（以區域為單位） */
+
+/* === 地圖互動：區域滑過（群組） Hover Group === */
+svg path.hover {
+    filter: brightness(1.1);
+    stroke-width: 1.5;
+}
+
+
+/* === 地圖互動：非目標淡化 Hover Dim Others === */
+svg path.hover-dim {
+    opacity: 0.35;
+}
+
+
+
+/* Optional FAB button if present */
+
+/* === 浮動操作按鈕 FAB（別名選擇器） === */
+#reset-btn.fab,
+.btn.fab {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    z-index: 1000;
+}
+
+/* 按鈕 */
+
+/* === 浮動操作按鈕 FAB === */
+.fab {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    z-index: 1000;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+
+/* === FAB：滑過 Hover === */
+.fab:hover {
+    background-color: #0056b3;
+    transform: scale(1.1);
+    /* 滑過時微放大 */
+}
+
+
+/* === FAB：點擊 Active === */
+.fab:active {
+    transform: scale(0.9);
+    /* 點擊瞬間縮小一下 */
+}
+
+
+/* === 修正：確保 SVG 顯示在背景影片之上 === */
+
+/* === 地圖容器 Map Container === */
+.map-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    text-align: center;
+    padding: 20px;
+    overflow: hidden;
+}
+
+
+/* === 地圖容器中的背景影片 Background Video (inside map) === */
+.map-container .bg-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    /* 背景影片 */
+}
+
+
+/* === 地圖 SVG 尺寸 Map SVG Sizing === */
+.map-container svg {
+    position: relative;
+    z-index: 2;
+    /* 地圖在影片之上 */
+    width: 90%;
+    height: auto;
+    max-height: 90vh;
+}
+
+
+/* === 地圖標題與提示 Map Title & Tip === */
+.map-container .map_title,
+.map-container .map_tip {
+    position: relative;
+    z-index: 3;
+    /* 標題與提示文字最高 */
+    color: white;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+
+/* === 資訊面板：區域名稱樣式 Region Heading === */
+#region-name {
+    text-align: center;
+    font-size: 30px;
+    background-color: chocolate;
+
+
+}
+
+/* 照片秀 */
+
+/* === 投影片：外框 Slideshow Container === */
+.slideshow-container {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    aspect-ratio: 16 / 9;
+    /* 保持比例，避免照片把版面撐開 */
+    margin: 10px 0;
+    overflow: hidden;
+    border-radius: 10px;
+    background: #f5f5f5;
+    /* 沒圖時背景顏色 */
+    z-index: 10;
+}
+
+
+
+
+/* === 投影片：單張容器 Slide Item === */
+.mySlides {
+    display: none;
+    position: relative;
+    width: 100%;
+    height: auto;
+    justify-content: center;
+    align-items: center;
+    overflow: visible;
+    /* 避免裁切 */
+}
+
+
+/* === 投影片：圖片 Image === */
+/* .mySlides img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+} */
+
+/* === 投影片：標題 Caption === */
+.mySlides .caption {
+    position: absolute;
+    top: 8px;
+    left: 12px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: clamp(14px, 2.5vw, 20px);
+}
+
+
+
+
+
+
+
+
+/* === 投影片：佔位 Placeholder === */
+.slide-placeholder {
+    width: 100%;
+    height: 200px;
+    background: #eaeaea;
+    color: #555;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    border: 1px dashed #aaa;
+}
+
+
+
+/* === 投影片：淡入類別 Fade Class === */
+.fade {
+    animation-name: fade;
+    animation-duration: 1.5s;
+}
+
+
+/* === 動畫：投影片淡入 Animation: fade === */
+@keyframes fade {
+    from {
+        opacity: .4;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* 左右箭頭 */
+
+/* === 投影片：左右控制箭頭 Prev/Next Buttons === */
+.prev,
+
+/* === 投影片：Next 按鈕微調 === */
+.next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 14px;
+    color: white;
+    font-weight: bold;
+    font-size: 28px;
+    /* 放大箭頭 */
+    background-color: rgba(0, 0, 0, 0.45);
+    border-radius: 10px;
+    user-select: none;
+    transition: 0.3s;
+    z-index: 20;
+}
+
+.next {
+    right: 10px;
+
+}
+
+
+/* === 投影片：Prev 按鈕微調 === */
+.prev {
+    left: 10px;
+}
+
+
+/* === 投影片：箭頭滑過 Hover === */
+.prev:hover,
+.next:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* 圓圓點 */
+
+/* === 投影片：指示點 Dots === */
+.dot {
+    cursor: pointer;
+    height: 10px;
+    width: 10px;
+    margin: 0 3px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+
+}
+
+
+/* === 投影片：指示點列 Dots Row === */
+.dot-row {
+    position: static;
+    /* 取消絕對定位 */
+    display: flex;
+    justify-content: center;
+    /* 置中 */
+    gap: 8px;
+    margin-top: 10px;
+    /* 與輪播間距 */
+    width: 100%;
+}
+
+/* === 投影片：指示點狀態 Active/Hover === */
+.active,
+.dot:hover {
+    background-color: #717171;
+}
+
+/* 淡入效果 */
+.fade {
+    animation: fade 0.8s;
+}
+
+@keyframes fade {
+    from {
+        opacity: .4
+    }
+
+    to {
+        opacity: 1
+    }
+}
+
+
+/* 字形 */
+
+/* === 設計系統：字型大小/行高/顏色 Design Tokens === */
+:root {
+    --font-sans: "Noto Sans TC", system-ui, -apple-system, Segoe UI, Roboto, Arial, "Microsoft JhengHei", sans-serif;
+    --text-1: clamp(14px, 1.5vw, 16px);
+    /* 內文 */
+    --text-2: clamp(16px, 1.8vw, 18px);
+    /* 次要標題/重點 */
+    --h6: clamp(16px, 2.0vw, 20px);
+    --h5: clamp(18px, 2.4vw, 24px);
+    --h4: clamp(20px, 3.0vw, 28px);
+    --h3: clamp(22px, 3.5vw, 32px);
+    --h2: clamp(26px, 4.2vw, 42px);
+    --h1: clamp(32px, 5.0vw, 56px);
+
+    --lh-tight: 1.25;
+    --lh-base: 1.7;
+    --lh-loose: 1.9;
+
+    --muted: rgba(255, 255, 255, .75);
+    /* 深色底用 */
+    --ink: #1f2937;
+    /* 淺色底字色 */
+    --ink-2: #4b5563;
+    /* 次要文字 */
+    --brand: #0d6efd;
+    /* Bootstrap 主色（可改） */
+}
+
+/* 2) 全域（兩端都受益） */
+
+/* === 全域版面（字型設定） Global Typography Base === */
+html,
+body {
+    font-family: var(--font-sans);
+}
+
+body {
+    font-size: var(--text-1);
+    line-height: var(--lh-base);
+}
+
+/* 3) 左側深色區（影片上方） */
+.map_title {
+    font-size: var(--h1);
+    font-weight: 800;
+    letter-spacing: .02em;
+    text-shadow: 0 2px 16px rgba(0, 0, 0, .35);
+    /* 提高對比 */
+}
+
+.map_tip {
+    color: var(--muted);
+    font-size: var(--text-2);
+    letter-spacing: .01em;
+}
+
+/* 4) 右側 info 面板（淺色底） */
+
+/* === 資訊面板：字色設定 Info Text Color === */
+#info-container {
+    color: var(--ink);
+}
+
+#region-name {
+    font-weight: 800;
+    letter-spacing: .01em;
+}
+
+/* === 資訊面板：清單正文 Lists Typography === */
+#spots,
+#festivals {
+    font-size: var(--text-1);
+    line-height: var(--lh-loose);
+    color: var(--ink);
+}
+
+/* === 資訊面板：粗體標籤 Strong Labels === */
+#spots strong,
+#festivals strong {
+    color: var(--ink);
+    font-weight: 700;
+}
+
+/* === 資訊面板：次要標籤 Secondary Labels === */
+#spots .label,
+#festivals .label {
+    /* 若你有用到標籤字樣 */
+    color: var(--ink-2);
+    font-weight: 600;
+}
+
+.spot-text {
+    font-size: 18px;
+    /* 後面內容字體大小 */
+}
+
+/* 5) 小標題/區塊標 */
+.section h4,
+.section h5 {
+    font-weight: 700;
+    line-height: var(--lh-tight);
+    margin: .75rem 0 .5rem;
+
+}
+
+/* 6) 清單（看起來更整齊） */
+#spots ul,
+#festivals ul {
+    margin: .25rem 0 .75rem 1.25rem;
+    padding: 0;
+    /* 可選：list-style: disc inside; */
+}
+
+#spots li,
+#festivals li {
+    margin: .15rem 0;
+}
+
+/* 7) 投影片 caption（不遮圖又好讀） */
+.slideshow-container .caption {
+    font-size: clamp(14px, 2.2vw, 18px);
+    line-height: var(--lh-tight);
+    font-weight: 600;
+    letter-spacing: .01em;
+    color: #fff;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, .6);
+}
+
+/* 8) 控制項（選單/按鈕的字） */
+
+/* === 控制項：月份選擇 Month Select === */
+#month-select {
+    font-size: var(--text-1);
+}
+
+/* === 控制項：按鈕 Buttons === */
+.btn,
+button {
+    font-weight: 600;
+    letter-spacing: .02em;
+}
+
+/* 9) 輕量的強調色（連結/互動字色） */
+
+/* === 連結 Links === */
+a {
+    color: var(--brand);
+}
+
+/* === 連結 Hover === */
+a:hover {
+    color: #0b5ed7;
+}
+
+/* 10) 細節：數字對齊、英文/數字更穩 */
+
+/* === 數字對齊 Tabular Numbers === */
+.num,
+.digit {
+    font-variant-numeric: tabular-nums;
+}
+
+/* 11) 斷行與長字處理（避免擠出容器） */
+
+/* === 文字斷行 Overflow Wrap === */
+#spots,
+#festivals,
+.caption {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+/* 地圖縮小版樣式 */
+.map-container.shrinked {
+    position: sticky;
+    top: 20px;
+    left: 20px;
+    width: 250px;
+    max-height: 250px;
+    z-index: 999;
+    transform: scale(0.6);
+    transform-origin: top left;
+}
+
+/* 地圖縮小時隱藏影片與提示文字 */
+.map-container.shrinked .bg-video,
+.map-container.shrinked .map_tip,
+.map-container.shrinked .map_title {
+    display: none;
+}
+
+/* 全螢幕 Info 面板 */
+.info-container.expanded {
+    display: block;
+    flex: 1;
+    width: 100%;
+    max-width: none;
+    height: 100vh;
+    overflow-y: auto;
+    background: #fff;
+    padding: 40px;
+    z-index: 998;
+}
+
+.info-container.expanded .slideshow-container {
+    width: 90%;
+    max-width: 1200px;
+    /* 原本是 900px，這裡縮小 */
+    height: auto;
+    margin: 20px auto;
+    aspect-ratio: unset;
+}
+
+.mySlides img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.slideshowWithDot {
+    flex: 1;
+    max-width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    order: 2;
+    /* 右邊 */
+}
+
+.region-layout {
+    display: flex;
+    flex-direction: row;
+    gap: 60px;
+    align-items: flex-start;
+    margin-top: 20px;
+    margin-left: 60px;
+    padding-left: 150px
+}
+
+.slideshowWithDot .slideshow-container {
+    width: 100%;
+    margin: 10px 0;
+}
+
+#region-info,
+#spots {
+    flex: 1;
+    max-width: 45%;
+    order: 1;
+}
+
+.slideshowWithDot .dot-row {
+    position: static;
+    /* 不要 absolute，避免覆蓋圖片 */
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 10px;
+    width: 100%;
+    z-index: 0;
+}
+
+/* 三欄並排 */
+.info-row {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-items: flex-start;
+}
+
+
+
+/* 區塊標題與選單（如慶典月份） */
+.section h4 {
+    margin: 0 0 12px 0;
+    font-size: clamp(18px, 2.2vw, 22px);
+    line-height: 1.2;
+}
+
+.section label,
+.section select {
+    font-size: 14px;
+}
+
+/* 卡片列表：自適應格線 */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+}
+
+/* 單張卡片 */
+/* .media-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .06), 0 6px 18px rgba(0, 0, 0, .06);
+    min-height: 64px;
+} */
+
+/* 文字樣式 */
+.media-text h5 {
+    margin: 0 0 4px 0;
+    font-size: clamp(15px, 1.8vw, 17px);
+    line-height: 1.35;
+}
+
+.media-text p {
+    margin: 0;
+    font-size: 13px;
+    opacity: .75;
+}
+
+/* ===== Map 縮小與 Info 展開的對位調整（桌機） ===== */
+.map-container.shrinked {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 320px;
+    max-height: 320px;
+    transform: scale(.75);
+    transform-origin: top left;
+    z-index: 999;
+}
+
+
+/* ===== 響應式（手機） ===== */
+/* === 響應式：手機 (<=576px) === */
+@media (max-width: 576px) {
+    body {
+        line-height: var(--lh-loose);
+    }
+
+    .map_title {
+        font-size: var(--h2);
+    }
+
+    .top-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .top-nav {
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+}
+
+/* === 響應式：手機 (<=768px) === */
+/* 一律：當寬度小於 1280px 時 → 上圖下文 */
+@media (max-width: 1279px) {
+    .region-layout {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        margin-left: 0;
+        padding-left: 0;
+        max-width: 1000px;
+        /* 避免太寬，可以依需要調整 */
+        margin: 0 auto;
+    }
+
+    /* 上：投影片 */
+    .region-layout>.slideshowWithDot {
+        order: 0;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    /* 下：info */
+    .region-layout>.info-row {
+        order: 1;
+        width: 100%;
+    }
+
+    /* 避開左上角縮小地圖（fixed + z-index:999） */
+    #info-container.expanded {
+        margin-top: 160px;
+        /* 可調整 120–200px */
+        margin-left: 0;
+    }
+}
+
 @media (max-width: 768px) {
+    .info-row {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .cards {
+        grid-template-columns: 1fr;
+        /* 手機單欄 */
+    }
+
+    .map-container.shrinked {
+        top: 12px;
+        left: 12px;
+        width: 240px;
+        max-height: 240px;
+        transform: scale(.6);
+    }
+
+    #info-container.expanded {
+        margin-left: 0;
+        /* 手機不需要右移 */
+        margin-top: 12px;
+        /* 與縮小地圖留點距離 */
+    }
+
     body {
         flex-direction: column;
         align-items: center;
@@ -123,677 +892,49 @@ svg path:hover {
     .info-row {
         flex-direction: column;
     }
-}
 
-    /* === 動畫：資訊面板淡入 Animation: fadeIn === */
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(10px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    /* Smooth zoom for whole SVG */
-
-    /* === 地圖：整體縮放轉場 SVG Global Transition === */
-    svg {
-        transition: all 0.6s ease;
-    }
-
-    /* Focus region vs others */
-
-    /* === 地圖互動：聚焦 Focus === */
-    svg path.focus {
-        fill: orange !important;
-        stroke: black;
-        stroke-width: 1.5;
-        transform-origin: center;
-        transform-box: fill-box;
-    }
-
-
-    /* === 地圖互動：淡化 Dimmed === */
-    svg path.dimmed {
-        opacity: 0.25;
-        filter: grayscale(60%);
-    }
-
-    /* Hover 效果（以區域為單位） */
-
-    /* === 地圖互動：區域滑過（群組） Hover Group === */
-    svg path.hover {
-        filter: brightness(1.1);
-        stroke-width: 1.5;
-    }
-
-
-    /* === 地圖互動：非目標淡化 Hover Dim Others === */
-    svg path.hover-dim {
-        opacity: 0.35;
-    }
-
-
-
-    /* Optional FAB button if present */
-
-    /* === 浮動操作按鈕 FAB（別名選擇器） === */
-    #reset-btn.fab,
-    .btn.fab {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        width: 56px;
-        height: 56px;
-        border-radius: 50%;
-        z-index: 1000;
-    }
-
-    /* 按鈕 */
-
-    /* === 浮動操作按鈕 FAB === */
-    .fab {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        width: 56px;
-        height: 56px;
-        border-radius: 50%;
-        border: none;
-        background-color: #007bff;
-        color: white;
-        font-size: 24px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        cursor: pointer;
-        z-index: 1000;
-        transition: background-color 0.3s ease, transform 0.2s ease;
-    }
-
-
-    /* === FAB：滑過 Hover === */
-    .fab:hover {
-        background-color: #0056b3;
-        transform: scale(1.1);
-        /* 滑過時微放大 */
-    }
-
-
-    /* === FAB：點擊 Active === */
-    .fab:active {
-        transform: scale(0.9);
-        /* 點擊瞬間縮小一下 */
-    }
-
-
-    /* === 修正：確保 SVG 顯示在背景影片之上 === */
-
-    /* === 地圖容器 Map Container === */
-    .map-container {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        flex: 1;
-        text-align: center;
-        padding: 20px;
-        overflow: hidden;
-    }
-
-
-    /* === 地圖容器中的背景影片 Background Video (inside map) === */
-    .map-container .bg-video {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        z-index: 1;
-        /* 背景影片 */
-    }
-
-
-    /* === 地圖 SVG 尺寸 Map SVG Sizing === */
-    .map-container svg {
-        position: relative;
-        z-index: 2;
-        /* 地圖在影片之上 */
-        width: 90%;
-        height: auto;
-        max-height: 90vh;
-    }
-
-
-    /* === 地圖標題與提示 Map Title & Tip === */
-    .map-container .map_title,
-    .map-container .map_tip {
-        position: relative;
-        z-index: 3;
-        /* 標題與提示文字最高 */
-        color: white;
-        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
-    }
-
-
-    /* === 資訊面板：區域名稱樣式 Region Heading === */
-    #region-name {
-        text-align: center;
-        font-size: 30px;
-        background-color: chocolate;
-
-
-    }
-
-    /* 照片秀 */
-
-    /* === 投影片：外框 Slideshow Container === */
-    .slideshow-container {
-        position: relative;
-        width: 100%;
-        max-width: 900px;
-        aspect-ratio: 16 / 9;
-        /* 保持比例，避免照片把版面撐開 */
-        margin: 10px 0;
-        overflow: hidden;
-        border-radius: 10px;
-        background: #f5f5f5;
-        /* 沒圖時背景顏色 */
-        z-index: 10;
-    }
-
-
-
-
-    /* === 投影片：單張容器 Slide Item === */
-    .mySlides {
-        display: none;
-        position: relative;
-        width: 100%;
-        height: auto;
-        justify-content: center;
-        align-items: center;
-        overflow: visible;
-        /* 避免裁切 */
-    }
-
-
-    /* === 投影片：圖片 Image === */
-    /* .mySlides img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-} */
-
-    /* === 投影片：標題 Caption === */
-    .mySlides .caption {
-        position: absolute;
-        top: 8px;
-        left: 12px;
-        background: rgba(0, 0, 0, 0.5);
-        color: white;
-        padding: 4px 8px;
-        border-radius: 4px;
-        font-size: clamp(14px, 2.5vw, 20px);
-    }
-
-
-
-
-
-
-
-
-    /* === 投影片：佔位 Placeholder === */
-    .slide-placeholder {
-        width: 100%;
-        height: 200px;
-        background: #eaeaea;
-        color: #555;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 18px;
-        border: 1px dashed #aaa;
-    }
-
-
-
-    /* === 投影片：淡入類別 Fade Class === */
-    .fade {
-        animation-name: fade;
-        animation-duration: 1.5s;
-    }
-
-
-    /* === 動畫：投影片淡入 Animation: fade === */
-    @keyframes fade {
-        from {
-            opacity: .4;
-        }
-
-        to {
-            opacity: 1;
-        }
-    }
-
-    /* 左右箭頭 */
-
-    /* === 投影片：左右控制箭頭 Prev/Next Buttons === */
-    .prev,
-
-    /* === 投影片：Next 按鈕微調 === */
-    .next {
-        cursor: pointer;
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        padding: 14px;
-        color: white;
-        font-weight: bold;
-        font-size: 28px;
-        /* 放大箭頭 */
-        background-color: rgba(0, 0, 0, 0.45);
-        border-radius: 10px;
-        user-select: none;
-        transition: 0.3s;
-        z-index: 20;
-    }
-
-    .next {
-        right: 10px;
-
-    }
-
-
-    /* === 投影片：Prev 按鈕微調 === */
-    .prev {
-        left: 10px;
-    }
-
-
-    /* === 投影片：箭頭滑過 Hover === */
-    .prev:hover,
-    .next:hover {
-        background-color: rgba(0, 0, 0, 0.7);
-    }
-
-    /* 圓圓點 */
-
-    /* === 投影片：指示點 Dots === */
-    .dot {
-        cursor: pointer;
-        height: 10px;
-        width: 10px;
-        margin: 0 3px;
-        background-color: #bbb;
-        border-radius: 50%;
-        display: inline-block;
-        transition: background-color 0.6s ease;
-
-    }
-
-
-    /* === 投影片：指示點列 Dots Row === */
-    .dot-row {
-        position: static;
-        /* 取消絕對定位 */
-        display: flex;
-        justify-content: center;
-        /* 置中 */
-        gap: 8px;
-        margin-top: 10px;
-        /* 與輪播間距 */
-        width: 100%;
-    }
-
-    /* === 投影片：指示點狀態 Active/Hover === */
-    .active,
-    .dot:hover {
-        background-color: #717171;
-    }
-
-    /* 淡入效果 */
-    .fade {
-        animation: fade 0.8s;
-    }
-
-    @keyframes fade {
-        from {
-            opacity: .4
-        }
-
-        to {
-            opacity: 1
-        }
-    }
-
-
-    /* 字形 */
-
-    /* === 設計系統：字型大小/行高/顏色 Design Tokens === */
-    :root {
-        --font-sans: "Noto Sans TC", system-ui, -apple-system, Segoe UI, Roboto, Arial, "Microsoft JhengHei", sans-serif;
-        --text-1: clamp(14px, 1.5vw, 16px);
-        /* 內文 */
-        --text-2: clamp(16px, 1.8vw, 18px);
-        /* 次要標題/重點 */
-        --h6: clamp(16px, 2.0vw, 20px);
-        --h5: clamp(18px, 2.4vw, 24px);
-        --h4: clamp(20px, 3.0vw, 28px);
-        --h3: clamp(22px, 3.5vw, 32px);
-        --h2: clamp(26px, 4.2vw, 42px);
-        --h1: clamp(32px, 5.0vw, 56px);
-
-        --lh-tight: 1.25;
-        --lh-base: 1.7;
-        --lh-loose: 1.9;
-
-        --muted: rgba(255, 255, 255, .75);
-        /* 深色底用 */
-        --ink: #1f2937;
-        /* 淺色底字色 */
-        --ink-2: #4b5563;
-        /* 次要文字 */
-        --brand: #0d6efd;
-        /* Bootstrap 主色（可改） */
-    }
-
-    /* 2) 全域（兩端都受益） */
-
-    /* === 全域版面（字型設定） Global Typography Base === */
-    html,
-    body {
-        font-family: var(--font-sans);
-    }
-
-    body {
-        font-size: var(--text-1);
-        line-height: var(--lh-base);
-    }
-
-    /* 3) 左側深色區（影片上方） */
-    .map_title {
-        font-size: var(--h1);
-        font-weight: 800;
-        letter-spacing: .02em;
-        text-shadow: 0 2px 16px rgba(0, 0, 0, .35);
-        /* 提高對比 */
-    }
-
-    .map_tip {
-        color: var(--muted);
-        font-size: var(--text-2);
-        letter-spacing: .01em;
-    }
-
-    /* 4) 右側 info 面板（淺色底） */
-
-    /* === 資訊面板：字色設定 Info Text Color === */
-    #info-container {
-        color: var(--ink);
-    }
-
-    #region-name {
-        font-weight: 800;
-        letter-spacing: .01em;
-    }
-
-    /* === 資訊面板：清單正文 Lists Typography === */
-    #spots,
-    #festivals {
-        font-size: var(--text-1);
-        line-height: var(--lh-loose);
-        color: var(--ink);
-    }
-
-    /* === 資訊面板：粗體標籤 Strong Labels === */
-    #spots strong,
-    #festivals strong {
-        color: var(--ink);
-        font-weight: 700;
-    }
-
-    /* === 資訊面板：次要標籤 Secondary Labels === */
-    #spots .label,
-    #festivals .label {
-        /* 若你有用到標籤字樣 */
-        color: var(--ink-2);
-        font-weight: 600;
-    }
-
-    .spot-text {
-        font-size: 18px;
-        /* 後面內容字體大小 */
-    }
-
-    /* 5) 小標題/區塊標 */
-    .section h4,
-    .section h5 {
-        font-weight: 700;
-        line-height: var(--lh-tight);
-        margin: .75rem 0 .5rem;
-    }
-
-    /* 6) 清單（看起來更整齊） */
-    #spots ul,
-    #festivals ul {
-        margin: .25rem 0 .75rem 1.25rem;
-        padding: 0;
-        /* 可選：list-style: disc inside; */
-    }
-
-    #spots li,
-    #festivals li {
-        margin: .15rem 0;
-    }
-
-    /* 7) 投影片 caption（不遮圖又好讀） */
-    .slideshow-container .caption {
-        font-size: clamp(14px, 2.2vw, 18px);
-        line-height: var(--lh-tight);
-        font-weight: 600;
-        letter-spacing: .01em;
-        color: #fff;
-        text-shadow: 0 1px 8px rgba(0, 0, 0, .6);
-    }
-
-    /* 8) 控制項（選單/按鈕的字） */
-
-    /* === 控制項：月份選擇 Month Select === */
-    #month-select {
-        font-size: var(--text-1);
-    }
-
-    /* === 控制項：按鈕 Buttons === */
-    .btn,
-    button {
-        font-weight: 600;
-        letter-spacing: .02em;
-    }
-
-    /* 9) 輕量的強調色（連結/互動字色） */
-
-    /* === 連結 Links === */
-    a {
-        color: var(--brand);
-    }
-
-    /* === 連結 Hover === */
-    a:hover {
-        color: #0b5ed7;
-    }
-
-    /* 10) 細節：數字對齊、英文/數字更穩 */
-
-    /* === 數字對齊 Tabular Numbers === */
-    .num,
-    .digit {
-        font-variant-numeric: tabular-nums;
-    }
-
-    /* 11) 斷行與長字處理（避免擠出容器） */
-
-    /* === 文字斷行 Overflow Wrap === */
-    #spots,
-    #festivals,
-    .caption {
-        overflow-wrap: anywhere;
-        word-break: break-word;
-    }
-
-    /* 12) 手機優化（字距放鬆、標題略小） */
-
-    /* === 響應式：手機 (<=576px) === */
-    @media (max-width: 576px) {
-        body {
-            line-height: var(--lh-loose);
-        }
-
-        .map_title {
-            font-size: var(--h2);
-        }
-
-        .top-header {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 8px;
-        }
-
-        .top-nav {
-            justify-content: flex-start;
-            flex-wrap: wrap;
-        }
-    }
-
-    /* 地圖縮小版樣式 */
-    .map-container.shrinked {
-        position: fixed;
-        top: 20px;
-        left: 20px;
-        width: 250px;
-        max-height: 250px;
-        z-index: 999;
-        transform: scale(0.6);
-        transform-origin: top left;
-    }
-
-    /* 地圖縮小時隱藏影片與提示文字 */
-    .map-container.shrinked .bg-video,
-    .map-container.shrinked .map_tip,
-    .map-container.shrinked .map_title {
-        display: none;
-    }
-
-    /* 全螢幕 Info 面板 */
-    .info-container.expanded {
-        display: block;
-        flex: 1;
-        width: 100%;
-        max-width: none;
-        height: 100vh;
-        overflow-y: auto;
-        background: #fff;
-        padding: 40px;
-        z-index: 998;
-    }
-
-    .info-container.expanded .slideshow-container {
-        width: 90%;
-        max-width: 600px;
-        /* 原本是 900px，這裡縮小 */
-        height: auto;
-        margin: 20px auto;
-        aspect-ratio: unset;
-    }
-
-    .mySlides img {
-        width: 100%;
-        height: auto;
-        object-fit: contain;
-    }
-
-
-    /* 卡片格式 */
-    /* .cards {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-top: 10px;
-}
-
-.media-card {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  padding: 12px 16px;
-}
-
-.media-text h5 {
-  margin: 0 0 6px;
-  font-size: 18px;
-  font-weight: 700;
-}
-
-.media-text p {
-  margin: 0;
-  font-size: 14px;
-  color: #555;
-} */
-
-    .slideshowWithDot {
-        flex: 1;
-        max-width: 55%;
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        order: 2;
-        /* 右邊 */
-    }
-
+    /* 1) 讓整組「輪播 + info」改成直向排列 */
     .region-layout {
-        display: flex;
-        flex-direction: row;
-        gap: 20px;
-        align-items: flex-start;
-        margin-top: 20px;
-    }
-
-    .slideshowWithDot.slideshow-container {
-        width: 100%;
-        margin: 10px 0;
-        order: 0;
-    }
-
-    #region-info,
-    #spots {
-        flex: 1;
-        max-width: 45%;
-        order: 1;
-    }
-
-    .slideshowWithDot .dot-row {
-        position: static;
-        /* 不要 absolute，避免覆蓋圖片 */
-        display: flex;
-        justify-content: center;
-        gap: 8px;
-        margin-top: 10px;
-        width: 100%;
-        z-index: 0;
-    }
-
-    /* 三欄並排 */
-    .info-row {
-        display: flex;
         flex-direction: column;
-        gap: 20px;
-        align-items: flex-start;
+        gap: 16px;
+        margin-left: 0;
+        padding-left: 0;
     }
+
+    /* 2) 排序：輪播在上、info 在下 */
+    .slideshowWithDot {
+        order: 0;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .info-row {
+        order: 1;
+        width: 100%;
+    }
+
+    /* 3) 避開左上角的浮動小地圖（手機版 map 是 fixed + z-index:999）
+        視你的實際縮放大小微調數值（120~200px 皆可） */
+    /* #info-container.expanded {
+        margin-top: 160px;
+        margin-left: 0;
+    } */
+}
+
+/* ===== 小提醒：投影片容器層級（避免圓點蓋到卡片）可視需要打開 ===== */
+/*
+.slideshow-container { position: relative; }
+.dots { position: relative; z-index: 1; }
+*/
+/* 固定排序：景點 → 美食 → 慶典 */
+.info-row>.section.spots {
+    order: 1;
+}
+
+.info-row>.section.foods {
+    order: 2;
+}
+
+.info-row>.section.festival {
+    order: 3;
+}
