@@ -159,7 +159,7 @@ function stopAutoplay() {
 document.addEventListener("DOMContentLoaded", () => {
   const slideshowContainer = document.querySelector(".slideshow-container");
   if (slideshowContainer) {
-     loadSlideshowFor("關東")
+    
     // 滑鼠移入：暫停播放
     slideshowContainer.addEventListener("mouseenter", stopAutoplay);
     // 滑鼠移出：繼續播放

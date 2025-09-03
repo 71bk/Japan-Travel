@@ -1,13 +1,14 @@
 // info.js
 import { data } from "./data.js";
 
-let infoEl, nameEl, spotsEl, festivalsEl, monthSelect;
+let infoEl, nameEl, spotsEl, festivalsEl, foodsEl, monthSelect;
 let selectedMonth = new Date().getMonth() + 1;
 
 document.addEventListener("DOMContentLoaded", () => {
   infoEl = document.getElementById("info-container");
   nameEl = document.getElementById("region-name");
   spotsEl = document.getElementById("spots");
+  foodsEl = document.getElementById("foods");
   festivalsEl = document.getElementById("festivals");
   monthSelect = document.getElementById("month-select");
 });
@@ -34,7 +35,9 @@ export function showRegionInfo(region) {
         </div>
       `).join("")}
     </div>
+`;
 
+foodsEl.innerHTML = `
     <h4>美食 🍜</h4>
     <div class="cards">
       ${data[region].美食.map(food => `

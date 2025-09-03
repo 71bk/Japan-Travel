@@ -170,42 +170,41 @@
 
   <div class="info-container" id="info-container">
     <div class="section">
+      <h3 id="region-name"></h3>
       <div class="region-layout">
-         <div id="spots"></div>
-        <h3 id="region-name"></h3>
+        <div class="info-row">
+          <div class="section festival">
+            <h4>當季慶典</h4>
+            <label for="month-select">選擇月份：</label>
+            <select id="month-select">
+              <option value="1">1 月</option>
+              <option value="2">2 月</option>
+              <option value="3">3 月</option>
+              <option value="4">4 月</option>
+              <option value="5">5 月</option>
+              <option value="6">6 月</option>
+              <option value="6">7 月</option>
+              <option selected value="8">8 月</option>
+              <option value="9">9 月</option>
+              <option value="10">10 月</option>
+              <option value="11">11 月</option>
+              <option value="12">12 月</option>
+            </select>
+            <div id="festivals"></div>
+          </div>
+          <div id="spots"></div>
+          
+          
+          <div id="foods"></div>
+        </div>
+
         <div class="slideshowWithDot">
           <div class="slideshow-container">
             <!-- JS 動態插入投影片 -->
           </div>
           <div class="dot-row"></div>
         </div>
-
-
-       
-
-        <div class="section festival">
-          <h4>當季慶典</h4>
-          <label for="month-select">選擇月份：</label>
-          <select id="month-select">
-            <option value="1">1 月</option>
-            <option value="2">2 月</option>
-            <option value="3">3 月</option>
-            <option value="4">4 月</option>
-            <option value="5">5 月</option>
-            <option value="6">6 月</option>
-            <option value="6">7 月</option>
-            <option selected value="8">8 月</option>
-            <option value="9">9 月</option>
-            <option value="10">10 月</option>
-            <option value="11">11 月</option>
-            <option value="12">12 月</option>
-          </select>
-          <div id="festivals"></div>
-        </div>
-
-
       </div>
-
     </div>
 
     <button id="reset-btn" class="fab">
