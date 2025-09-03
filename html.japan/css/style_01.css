@@ -35,7 +35,6 @@ body {
     flex: 1;
     padding: 20px;
     background: #fff;
-    border-left: 2px solid #ccc;
     display: none;
 
     animation: fadeIn 0.3s ease-in-out;
@@ -73,6 +72,10 @@ svg path:hover {
     background: #fdf5e6;
     padding: 10px;
     border-radius: 8px;
+    width: 100%;         /* 撐滿父容器 */
+    box-sizing: border-box;
+    padding: 12px 16px;  /* 留點內距 */
+    border-radius: 8px;  /* 卡片圓角 */
 }
 
 .map_title {
@@ -651,6 +654,20 @@ a:hover {
 
 /* 全螢幕 Info 面板 */
 .info-container.expanded {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 50px;        /* 預留 ~320px 給左上角縮小地圖與空白 */
+  right: 0;           /* 自動撐到右邊 */
+  width: auto;        /* 用 left/right 控制寬度即可 */
+  height: auto;       /* 用 top/bottom 控制高度即可 */
+  background: #fff;
+  padding: 24px 40px 40px;
+  z-index: 998;
+  overflow-y: auto;   /* 面板內自行滾動 */
+}
+
+/* .info-container.expanded {
     display: block;
     flex: 1;
     width: 100%;
@@ -659,11 +676,11 @@ a:hover {
     background: #fff;
     padding: 40px;
     z-index: 998;
-}
+} */
 
 .info-container.expanded .slideshow-container {
     width: 90%;
-    max-width: 1200px;
+    max-width: 1000px;
     /* 原本是 900px，這裡縮小 */
     height: auto;
     margin: 20px auto;
@@ -692,6 +709,7 @@ a:hover {
     gap: 60px;
     align-items: flex-start;
     margin-top: 20px;
+    margin-left: 100px;
 }
 
 .slideshowWithDot .slideshow-container {
@@ -864,7 +882,6 @@ a:hover {
     .info-container {
         width: 100%;
         /* 滿版資訊欄 */
-        border-left: none;
         border-top: 2px solid #ccc;
         /* 改為頂部分隔線 */
         margin-top: 20px;
@@ -927,7 +944,8 @@ a:hover {
 }
 #spots, 
 #foods, 
-#festivals {
+#festivals
+ {
   width: 100%;         /* 撐滿父容器 */
   box-sizing: border-box;
   padding: 12px 16px;  /* 留點內距 */
