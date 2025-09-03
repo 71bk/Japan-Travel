@@ -774,8 +774,7 @@ a:hover {
     order: 1;
 }
 
-.region-layout .dot-row {
-   .slideshowWithDot .dot-row {
+ .slideshowWithDot .dot-row {
   position: static;        /* 不要 absolute，避免覆蓋圖片 */
   display: flex;
   justify-content: center;
