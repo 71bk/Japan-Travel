@@ -172,3 +172,40 @@ document.addEventListener("visibilitychange", () => {
   if (document.hidden) stopAutoplay(); // 背景狀態 → 停止播放
   else startAutoplay();                // 回到前景 → 繼續播放
 });
+// 加在 slideshow.js 的最後（保留既有程式碼不動）
+export function loadSlideshowForCategory(regionName, category, categoryPhotos = {}) {
+  // 若該區域該分類有設定 → 用分類圖片；否則退回用區域預設
+  const imgs =
+    (categoryPhotos?.[regionName]?.[category] && categoryPhotos[regionName][category].length)
+      ? categoryPhotos[regionName][category]
+      : (regionPhotos[regionName] || []);
+
+  // 下面直接沿用現有 loadSlideshowFor 的 DOM 產生邏輯
+  containerEl = document.querySelector(".slideshow-container");
+  dotRowEl = document.querySelector(".dot-row");
+
+  containerEl.innerHTML =
+    imgs.map(src => `
+      <div class="mySlides fade">
+        <img src="${src}" alt="${regionName} ${category}">
+        <div class="caption">${(src.split("/").pop() || "").replace(".jpg", "")}</div>
+      </div>
+    `).join("") +
+    `
+      <a class="prev">&#10094;</a>
+      <a class="next">&#10095;</a>
+    `;
+
+  dotRowEl.innerHTML = imgs.map((_, i) => `<span class="dot" data-index="${i + 1}"></span>`).join("");
+
+  // 初始與事件與自動播放，照既有邏輯來
+  slideIndex = 1;
+  showSlides(slideIndex);
+  startAutoplay();
+
+  containerEl.querySelector(".prev").addEventListener("click", () => plusSlides(-1));
+  containerEl.querySelector(".next").addEventListener("click", () => plusSlides(1));
+  dotRowEl.querySelectorAll(".dot").forEach(dot => {
+    dot.addEventListener("click", () => currentSlide(parseInt(dot.dataset.index, 10)));
+  });
+}

@@ -4,6 +4,8 @@ import "./data.js";
 import "./info.js";
 import "./map.js";
 import "./slideshow.js";
+import "./detailView.js";
+
 
 
 

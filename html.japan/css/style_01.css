@@ -709,7 +709,6 @@ a:hover {
     gap: 60px;
     align-items: flex-start;
     margin-top: 20px;
-    margin-left: 100px;
 }
 
 .slideshowWithDot .slideshow-container {
@@ -853,6 +852,7 @@ a:hover {
         /* 可調整 120–200px */
         margin-left: 0;
     }
+    .category-rail { position: static; width: 100%; }
 }
 
 @media (max-width: 768px) {
@@ -892,11 +892,6 @@ a:hover {
         padding: 10px;
         width: 100%;
     }
-
-    .info-row {
-        flex-direction: column;
-    }
-
     /* 1) 讓整組「輪播 + info」改成直向排列 */
     .region-layout {
         flex-direction: column;
@@ -962,3 +957,81 @@ a:hover {
 #festivals {
   background-color: #FFF4E0; /* 淡杏米色 */
 }
+/* 兩欄版：左 180px 放 rail，右側放內容；標題跨兩欄 */
+.info-container > .section {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  grid-template-areas:
+    "title title"
+    "rail  content";
+  gap: 16px;
+}
+
+/* 指定每個元素放到哪一格 */
+#region-name    { grid-area: title; }     /* 標題跨兩欄 */
+#category-rail  { grid-area: rail; }      /* 左欄：分類 rail */
+.region-layout  { grid-area: content;     /* 右欄：內容（含 slide） */
+                  min-width: 0; }         /* 防止 Grid 把內容擠爆 */
+
+/* 讓 slide 在內容區自適應寬度 */
+.slideshowWithDot,
+.slideshow-container { width: 100%; }
+
+/* 直欄外觀 */
+.category-rail {
+  width: 180px;
+  position: sticky;
+  top: 12px;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px;
+  border-radius: 12px;
+  background: #f7f7f9;
+  box-shadow: 0 1px 2px rgba(0,0,0,.06), 0 6px 16px rgba(0,0,0,.06);
+}
+
+/* 直欄的 menu icon（收合/展開） */
+.category-rail .rail-toggle {
+  appearance: none;
+  border: none;
+  background: #fff;
+  padding: 8px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0,0,0,.06);
+  font-size: 18px;
+  line-height: 1;
+}
+/* 直欄按鈕列表 */
+.category-rail .rail-list {
+  overflow: hidden;
+  transition: max-height .28s ease;
+}
+.category-rail.collapsed { width: 180px; }
+
+.category-rail.collapsed .rail-list {
+  max-height: 0;
+}
+/* 單顆分類按鈕 */
+.category-rail .tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 10px;
+  background: #ffffff;
+  cursor: pointer;
+  text-align: left;
+  box-shadow: 0 1px 2px rgba(0,0,0,.06);
+  font-size: 15px;
+}
+.category-rail .tab .icon { width: 1.2em; }
+.category-rail .tab.active { outline: 2px solid #ff8a00; background: #fff6e9; }
+.category-rail .tab:hover { background: #f0f0f3; }
+
+/* 收合狀態：只顯示圖示（標籤收起） */
+.category-rail.collapsed .tab { justify-content: center; padding: 10px 8px; }

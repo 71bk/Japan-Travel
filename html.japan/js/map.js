@@ -133,6 +133,9 @@ document.addEventListener("DOMContentLoaded", () => {
       zoomToBox(getRegionBBox(region));
       showRegionInfo(region);
       loadSlideshowFor(region);
+      document.dispatchEvent(new CustomEvent("region-selected", { detail: { region } }));
+
+
     });
 
     // 可選：加入 aria-label 讓輔助工具更友善
@@ -164,7 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
         infoEl.classList.add("hidden");
       }
 
-      
+
     });
   }
 
