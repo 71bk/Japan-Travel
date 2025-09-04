@@ -17,12 +17,144 @@ const regionCategoryPhotos = {
     "景點": [
       "./image/pic/北海道/札幌時計台.jpg",
       "./image/pic/北海道/小樽運河.jpg",
-      "./image/pic/北海道/富良野花田.jpg"
+      "./image/pic/北海道/富良野花田.jpg",
+      "./image/pic/北海道/旭川動物園.jpg",
+      "./image/pic/北海道/知床五湖.jpg"
+
+
     ],
-    "美食": [],
-    "慶典": []
+    "美食": [
+      "./image/pic/北海道/成吉思汗烤肉.jpg",
+      "./image/pic/北海道/海鮮丼.jpg",
+      "./image/pic/北海道/函館鹽拉麵.jpg",
+
+    ],
+    "慶典": [
+      "./image/pic/北海道/2月札幌雪祭.jpg",
+      "./image/pic/北海道/6月YOSAKOI索朗祭.jpg",
+      "./image/pic/北海道/8月良野花田祭.jpg",
+
+    ]
+  },
+  "東北": {
+    景點: [
+      "./image/pic/東北/松島灣.jpg",
+      "./image/pic/東北/十和田湖.jpg",
+      "./image/pic/東北/角館武家屋敷.jpg",
+      "./image/pic/東北/猊鼻渓.jpg",
+      "./image/pic/東北/銀山溫泉.jpg"
+    ],
+    美食: [
+      "./image/pic/東北/牛舌燒.jpg",
+      "./image/pic/東北/稻庭烏龍麵.jpg"
+    ],
+    慶典: [
+      "./image/pic/東北/8月青森睡魔祭.jpg",
+      "./image/pic/東北/8月秋田竿燈祭.jpg",
+      "./image/pic/東北/8月仙台七夕祭.jpg"
+    ]
+  },
+  "關東": {
+    景點: [
+      "./image/pic/關東/東京晴空塔.jpg",
+      "./image/pic/關東/淺草寺.jpg",
+      "./image/pic/關東/東京塔.jpg",
+      "./image/pic/關東/日光東照宮.jpg",
+      "./image/pic/關東/鎌倉大佛.jpg"
+    ],
+    美食: [
+      "./image/pic/關東/壽司.jpg",
+      "./image/pic/關東/雷門人形燒.jpg"
+    ],
+    慶典: [
+      "./image/pic/關東/6月鎌倉紫陽花祭.jpg",
+      "./image/pic/關東/7月隅田川花火大會.jpg"
+    ]
+
+  },
+  "中部": {
+    景點: [
+      "./image/pic/中部/富士山.jpg",
+      "./image/pic/中部/白川鄉.jpg",
+      "./image/pic/中部/金澤兼六園.jpg",
+      "./image/pic/中部/立山黑部阿爾卑斯路線.jpg",
+      "./image/pic/中部/黑部水壩.jpg"
+    ],
+    美食: [
+      "./image/pic/中部/味噌煮烏龍.jpg",
+      "./image/pic/中部/飛驒牛.jpg"
+    ],
+    慶典: [
+      "./image/pic/中部/8月長岡花火大會.jpg"
+    ]
+
+  },
+  "近畿": {
+    景點: [
+      "./image/pic/近畿/京都清水寺.jpg",
+      "./image/pic/近畿/大阪城.jpg",
+      "./image/pic/近畿/奈良東大寺.jpg",
+      "./image/pic/近畿/伏見稻荷大社.jpg",
+      "./image/pic/近畿/姬路城.jpg"
+    ],
+    美食: [
+      "./image/pic/近畿/章魚燒.jpg",
+      "./image/pic/近畿/宇治抹茶甜點.jpg"
+    ],
+    慶典: [
+      "./image/pic/近畿/7月祇園祭.jpg",
+      "./image/pic/近畿/8月京都五山送火.jpg",
+      "./image/pic/近畿/8月天神祭.jpg"
+    ]
+
+  },
+  "中國": {
+    景點: [
+      "./image/pic/中國/嚴島神社.jpg",
+      "./image/pic/中國/鳥取沙丘.jpg",
+      "./image/pic/中國/倉敷美觀地區.jpg",
+      "./image/pic/中國/錦帶橋.jpg"
+    ],
+    美食: [
+      "./image/pic/中國/廣島燒.jpg",
+      "./image/pic/中國/[廿日市宮島町] 牡蠣林.jpg"
+    ],
+    慶典: [
+      "./image/pic/中國/10月宮島水中花火.jpg"
+    ]
+
+  },
+  "四國": {
+    景點: [
+      "./image/pic/四國/道後溫泉.jpg",
+      "./image/pic/四國/鳴門漩渦.jpg",
+      "./image/pic/四國/祖谷葛橋.jpg",
+      "./image/pic/四國/草間彌生・南瓜.jpg"
+    ],
+    美食: [
+      "./image/pic/四國/讚岐烏龍麵.jpg"
+    ],
+    慶典: [
+      "./image/pic/四國/8月阿波舞.jpg"
+    ]
+
+  },
+  "九州沖繩": {
+    景點: [
+      "./image/pic/九州沖繩/沖繩美麗海水族館.jpg",
+      "./image/pic/九州沖繩/熊本城.jpg",
+      "./image/pic/九州沖繩/高千穗峽.jpg",
+      "./image/pic/九州沖繩/櫻島火山.jpg"
+    ],
+    美食: [
+      "./image/pic/九州沖繩/沖繩麵.jpg",
+      "./image/pic/九州沖繩/豚骨拉麵.jpg"
+    ],
+    慶典: [
+      "./image/pic/九州沖繩/8月那霸大綱挽.jpg"
+    ]
+
   }
-  // 其他區域可依需要再補
 };
 
 function ensureCategoryRail() {
