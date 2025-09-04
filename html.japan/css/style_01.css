@@ -3,8 +3,7 @@ video
 /* === 全域版面與排版 Global Layout & Base === */
 body {
     font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: row;
+    display: block;
     margin: 0;
     min-height: 100vh;
 }
@@ -42,11 +41,10 @@ body {
 
 
 /* === 資訊面板區塊基礎 Section Spacing === */
-.section {
+/* .section {
     flex: 1 1 0;
     min-width: 280px;
-    /* 避免過窄 */
-}
+} */
 
 /* === 地圖：強調區域 Highlight Fill === */
 .highlight {
@@ -72,10 +70,13 @@ svg path:hover {
     background: #fdf5e6;
     padding: 10px;
     border-radius: 8px;
-    width: 100%;         /* 撐滿父容器 */
+    width: 100%;
+    /* 撐滿父容器 */
     box-sizing: border-box;
-    padding: 12px 16px;  /* 留點內距 */
-    border-radius: 8px;  /* 卡片圓角 */
+    padding: 12px 16px;
+    /* 留點內距 */
+    border-radius: 8px;
+    /* 卡片圓角 */
 }
 
 .map_title {
@@ -267,21 +268,25 @@ svg path.hover-dim {
 
 /* === 資訊面板：區域名稱樣式 Region Heading === */
 #region-name {
-  position: inline-block;
-  top: 10px;              /* 黏在頂部 20px */
-  margin-left:30%;      /* 靠右關鍵 */
-  width: max-content;     /* 背景只包文字 */
-   min-width: 800px;   /* 背景至少 300px */
-  text-align: center; /* 讓文字在背景裡置中 */
-  padding: 10px 0;
-  font-size: clamp(20px, 4vw, 36px);
-  font-weight: 800;
-  letter-spacing: 0.03em;
-  color: #fff;
-  background: rgba(0, 0, 0, 0.6);
-  border-radius: 8px;
-  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+    flex: 1;
+    /* 標題佔滿剩餘空間 */
+    margin: 0;
+    padding: 10px 16px;
+    text-align: center;
+    font-size: clamp(20px, 4vw, 36px);
+    font-weight: 800;
+    color: #fff;
+    background: rgba(0, 0, 0, .6);
+    border-radius: 10px;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, .5);
 }
+
+/* 取消原本易造成偏移的設定 */
+#region-name {
+    margin-left: 0 !important;
+    min-width: 0 !important;
+}
+
 
 
 
@@ -478,6 +483,8 @@ svg path.hover-dim {
     --text-1: clamp(14px, 1.5vw, 16px);
     /* 內文 */
     --text-2: clamp(16px, 1.8vw, 18px);
+    /* 設一個小地圖的保留寬度（地圖寬 250 + 左右間距） */
+    --mini-map-pad: 280px;
     /* 次要標題/重點 */
     --h6: clamp(16px, 2.0vw, 20px);
     --h5: clamp(18px, 2.4vw, 24px);
@@ -654,17 +661,18 @@ a:hover {
 
 /* 全螢幕 Info 面板 */
 .info-container.expanded {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 50px;        /* 預留 ~320px 給左上角縮小地圖與空白 */
-  right: 0;           /* 自動撐到右邊 */
-  width: auto;        /* 用 left/right 控制寬度即可 */
-  height: auto;       /* 用 top/bottom 控制高度即可 */
-  background: #fff;
-  padding: 24px 40px 40px;
-  z-index: 998;
-  overflow-y: auto;   /* 面板內自行滾動 */
+    position: static;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    padding: 0;
+    /* 由內部的 layout 控制間距 */
+    display: block;
+    /* 確保展開時真的顯示 */
 }
 
 /* .info-container.expanded {
@@ -689,26 +697,28 @@ a:hover {
 
 .mySlides img {
     width: 100%;
-    height: auto;
+    height: 100%;
     object-fit: contain;
 }
 
 .slideshowWithDot {
-    flex: 1;
-    max-width: 70%;
+    flex: 0 0 1200px;
+    /* 固定寬，避免被擠壓 */
+    max-width: 60vw;
+    /* 寬螢幕時不要太寬 */
     display: flex;
     flex-direction: column;
-    align-items: stretch;
-    order: 2;
-    /* 右邊 */
 }
 
 .region-layout {
     display: flex;
-    flex-direction: row;
-    gap: 60px;
+    margin-left: 20px;
+    /* 整組往左貼到小地圖下緣 */
+    display: flex;
+    /* 你已是 flex；這裡保險覆蓋 */
     align-items: flex-start;
-    margin-top: 20px;
+    margin-top: 16px;
+    /* 讓下排整組與上排拉開距離 */
 }
 
 .slideshowWithDot .slideshow-container {
@@ -730,10 +740,10 @@ a:hover {
 
 /* 三欄並排 */
 .info-row {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 24px;
-    align-items: flex-start;
+    gap: 20px;
 }
 
 
@@ -752,22 +762,10 @@ a:hover {
 
 /* 卡片列表：自適應格線 */
 .cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 12px;
-}
-
-/* 單張卡片 */
-/* .media-card {
     display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 14px;
-    border-radius: 12px;
-    background: #fff;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, .06), 0 6px 18px rgba(0, 0, 0, .06);
-    min-height: 64px;
-} */
+    flex-direction: column;
+    gap: 12px; /* 每卡片之間間距 */
+}
 
 /* 文字樣式 */
 .media-text h5 {
@@ -784,15 +782,18 @@ a:hover {
 
 /* ===== Map 縮小與 Info 展開的對位調整（桌機） ===== */
 .map-container.shrinked {
-  position: fixed;
-  top: 20px;       /* 與頂部的距離 */
-  left: 20px;      /* 與左邊的距離 */
-  width: 250px;    /* 縮小後的寬度 */
-  height: auto;
-  max-height: 250px;
-  z-index: 999;    /* 確保在最上層 */
-  transform: scale(0.6);
-  transform-origin: top left;
+    position: fixed;
+    top: 20px;
+    /* 與頂部的距離 */
+    left: 20px;
+    /* 與左邊的距離 */
+    width: 250px;
+    /* 縮小後的寬度 */
+    max-height: 250px;
+    z-index: 80;
+    /* 確保在最上層 */
+    transform: scale(0.6);
+    transform-origin: top left;
 }
 
 
@@ -852,7 +853,11 @@ a:hover {
         /* 可調整 120–200px */
         margin-left: 0;
     }
-    .category-rail { position: static; width: 100%; }
+
+    .category-rail {
+        position: static;
+        width: 100%;
+    }
 }
 
 @media (max-width: 768px) {
@@ -892,6 +897,7 @@ a:hover {
         padding: 10px;
         width: 100%;
     }
+
     /* 1) 讓整組「輪播 + info」改成直向排列 */
     .region-layout {
         flex-direction: column;
@@ -911,14 +917,9 @@ a:hover {
         order: 1;
         width: 100%;
     }
-
-    /* 3) 避開左上角的浮動小地圖（手機版 map 是 fixed + z-index:999）
-        視你的實際縮放大小微調數值（120~200px 皆可） */
-    /* #info-container.expanded {
-        margin-top: 160px;
-        margin-left: 0;
-    } */
 }
+
+
 
 /* ===== 小提醒：投影片容器層級（避免圓點蓋到卡片）可視需要打開 ===== */
 /*
@@ -937,105 +938,177 @@ a:hover {
 .info-row>.section.festival {
     order: 3;
 }
-#spots, 
-#foods, 
-#festivals
- {
-  width: 100%;         /* 撐滿父容器 */
-  box-sizing: border-box;
-  padding: 12px 16px;  /* 留點內距 */
-  border-radius: 8px;  /* 卡片圓角 */
+
+#spots,
+#foods,
+#festivals {
+    width: 100%;
+    /* 撐滿父容器 */
+    box-sizing: border-box;
+    padding: 12px 16px;
+    /* 留點內距 */
+    border-radius: 8px;
+    /* 卡片圓角 */
 }
 
 /* 保持各自的杏色系背景 */
 #spots {
-  background-color: #FFE0C0; /* 偏米杏 */
-}
-#foods {
-  background-color: #F5D6A0; /* 杏黃色 */
-}
-#festivals {
-  background-color: #FFF4E0; /* 淡杏米色 */
-}
-/* 兩欄版：左 180px 放 rail，右側放內容；標題跨兩欄 */
-.info-container > .section {
-  display: grid;
-  grid-template-columns: 180px 1fr;
-  grid-template-areas:
-    "title title"
-    "rail  content";
-  gap: 16px;
+    background-color: #FFE0C0;
+    /* 偏米杏 */
 }
 
+#foods {
+    background-color: #F5D6A0;
+    /* 杏黃色 */
+}
+
+#festivals {
+    background-color: #FFF4E0;
+    /* 淡杏米色 */
+}
+
+/* 兩欄版：左 180px 放 rail，右側放內容；標題跨兩欄 */
+/* .info-container>.section {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    grid-template-areas:
+        "rail content";
+    gap: 25px;
+} */
+
 /* 指定每個元素放到哪一格 */
-#region-name    { grid-area: title; }     /* 標題跨兩欄 */
-#category-rail  { grid-area: rail; }      /* 左欄：分類 rail */
-.region-layout  { grid-area: content;     /* 右欄：內容（含 slide） */
-                  min-width: 0; }         /* 防止 Grid 把內容擠爆 */
+#region-name {
+    grid-area: title;
+}
+
+/* 標題跨兩欄 */
+#category-rail {
+    grid-area: rail;
+}
+
+/* 左欄：分類 rail */
+.region-layout {
+    grid-area: content;
+    /* 右欄：內容（含 slide） */
+    min-width: 0;
+}
+
+/* 防止 Grid 把內容擠爆 */
 
 /* 讓 slide 在內容區自適應寬度 */
 .slideshowWithDot,
-.slideshow-container { width: 100%; }
+.slideshow-container {
+    width: 100%;
+}
 
 /* 直欄外觀 */
 .category-rail {
-  width: 180px;
-  position: sticky;
-  top: 12px;
-  align-self: start;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 8px;
-  border-radius: 12px;
-  background: #f7f7f9;
-  box-shadow: 0 1px 2px rgba(0,0,0,.06), 0 6px 16px rgba(0,0,0,.06);
+    width: 180px;
+    position: sticky;
+    top: 12px;
+    align-self: start;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 8px;
+    border-radius: 12px;
+    background: #f7f7f9;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .06), 0 6px 16px rgba(0, 0, 0, .06);
 }
 
 /* 直欄的 menu icon（收合/展開） */
 .category-rail .rail-toggle {
-  appearance: none;
-  border: none;
-  background: #fff;
-  padding: 8px 10px;
-  border-radius: 10px;
-  cursor: pointer;
-  box-shadow: 0 1px 2px rgba(0,0,0,.06);
-  font-size: 18px;
-  line-height: 1;
+    appearance: none;
+    border: none;
+    background: #fff;
+    padding: 8px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .06);
+    font-size: 18px;
+    line-height: 1;
 }
+
 /* 直欄按鈕列表 */
 .category-rail .rail-list {
-  overflow: hidden;
-  transition: max-height .28s ease;
+    overflow: hidden;
+    transition: max-height .28s ease;
 }
-.category-rail.collapsed { width: 180px; }
+
+.category-rail.collapsed {
+    width: 150px;
+}
 
 .category-rail.collapsed .rail-list {
-  max-height: 0;
+    max-height: 0;
 }
+
 /* 單顆分類按鈕 */
 .category-rail .tab {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-  padding: 10px 12px;
-  border: none;
-  border-radius: 10px;
-  background: #ffffff;
-  cursor: pointer;
-  text-align: left;
-  box-shadow: 0 1px 2px rgba(0,0,0,.06);
-  font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 10px 12px;
+    border: none;
+    border-radius: 10px;
+    background: #ffffff;
+    cursor: pointer;
+    text-align: left;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .06);
+    font-size: 15px;
 }
-.category-rail .tab .icon { width: 1.2em; }
-.category-rail .tab.active { outline: 2px solid #ff8a00; background: #fff6e9; }
-.category-rail .tab:hover { background: #f0f0f3; }
+
+.category-rail .tab .icon {
+    width: 1.2em;
+}
+
+.category-rail .tab.active {
+    outline: 2px solid #ff8a00;
+    background: #fff6e9;
+}
+
+.category-rail .tab:hover {
+    background: #f0f0f3;
+}
 
 /* 收合狀態：只顯示圖示（標籤收起） */
-.category-rail.collapsed .tab { justify-content: center; padding: 10px 8px; }
+.category-rail.collapsed .tab {
+    justify-content: center;
+    padding: 10px 8px;
+}
 
-.intoduseName{
+.intoduseName {
     font-size: 100px;
+}
+
+/* 標題跟小地圖排版 */
+.header-bar {
+    position: sticky;
+    top: 12px;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    /* 因為小地圖是 fixed 在左上，所以 header 以 padding-left 騰出空間 */
+    padding-left: var(--mini-map-pad);
+    min-height: 140px;
+    /* 讓標題不會與小地圖重疊 */
+}
+
+#category-rail.category-rail {
+    flex: 0 0 200px;
+    /* 固定欄寬 */
+    align-self: flex-start;
+    position: sticky;
+    top: 12px;
+    margin-left: 20px;
+    /* 與小地圖的 left:20px 對齊視覺 */
+}
+
+/* 2) 當地圖縮小時，右側整個 info 面板往右留出空間 */
+.map-container.shrinked~.info-container.expanded {
+    left: 0;
+    padding-left: 0 !important;
+    display: block;
 }

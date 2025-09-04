@@ -160,85 +160,94 @@ const regionCategoryPhotos = {
 function ensureCategoryRail() {
   const info = document.getElementById("info-container");
   if (!info) return;
-  if (document.getElementById("category-rail")) return;
 
-  const rail = document.createElement("aside");
-  rail.id = "category-rail";
-  rail.className = "category-rail";
-
-  const toggle = document.createElement("button");
-  toggle.type = "button";
-  toggle.className = "rail-toggle";
-  toggle.setAttribute("aria-expanded", "true");
-  toggle.setAttribute("aria-controls", "category-rail-list");
-  toggle.textContent = "☰";
-
-  const list = document.createElement("div");
-  list.id = "category-rail-list";
-  list.className = "rail-list";
-  list.innerHTML = CATEGORIES.map(c => `
-    <button class="tab${c === current.category ? " active" : ""}" data-cat="${c}">
-      <span class="icon" aria-hidden="true">${CATEGORY_ICONS[c] || "•"}</span>
-      <span class="label">${c}</span>
-    </button>
-  `).join("");
-
-  // 事件：切換分類
-  list.addEventListener("click", (e) => {
-    const btn = e.target.closest(".tab");
-    if (!btn) return;
-    setCategory(btn.dataset.cat);
-  });
-
-  // 事件：展開/收合（往下）
-  toggle.addEventListener("click", () => {
-    const collapsing = !rail.classList.contains("collapsed");
-    if (collapsing) {
-      // 收合
-      rail.classList.add("collapsed");
-      list.style.maxHeight = "0px";
-      localStorage.setItem("categoryRailCollapsed", "1");
-      toggle.setAttribute("aria-expanded", "false");
-    } else {
-      // 展開
-      rail.classList.remove("collapsed");
-      // 先清空 maxHeight 以便量自然高度
-      list.style.maxHeight = "";
-      const h = list.scrollHeight;
-      list.style.maxHeight = h + "px";
-      localStorage.setItem("categoryRailCollapsed", "0");
-      toggle.setAttribute("aria-expanded", "true");
-    }
-  });
-
-  // 插入到 .section 內，放在 .region-layout 前
   const regionLayout = info.querySelector(".region-layout");
-  info.querySelector(".section")?.insertBefore(rail, regionLayout);
+  if (!regionLayout) return;
 
-  rail.appendChild(toggle);
-  rail.appendChild(list);
+  // 若已有 rail，直接搬進 .region-layout（避免重複建立）
+  let rail = document.getElementById("category-rail");
+  if (!rail) {
+    rail = document.createElement("aside");
+    rail.id = "category-rail";
+    rail.className = "category-rail";
 
-  // 插入 DOM 後再初始化高度（避免 scrollHeight 量到 0）
-  requestAnimationFrame(() => {
-    const isCollapsed = localStorage.getItem("categoryRailCollapsed") === "1";
-    rail.classList.toggle("collapsed", isCollapsed);
-    if (isCollapsed) {
-      list.style.maxHeight = "0px";
-      toggle.setAttribute("aria-expanded", "false");
-    } else {
-      list.style.maxHeight = list.scrollHeight + "px";
-      toggle.setAttribute("aria-expanded", "true");
-    }
-  });
+    const toggle = document.createElement("button");
+    toggle.type = "button";
+    toggle.className = "rail-toggle";
+    toggle.setAttribute("aria-expanded", "true");
+    toggle.setAttribute("aria-controls", "category-rail-list");
+    toggle.textContent = "☰";
 
-  // 視窗改變時，展開狀態下重算高度
-  window.addEventListener("resize", () => {
-    if (!rail.classList.contains("collapsed")) {
-      list.style.maxHeight = "";
-      list.style.maxHeight = list.scrollHeight + "px";
-    }
-  });
+    const list = document.createElement("div");
+    list.id = "category-rail-list";
+    list.className = "rail-list";
+    list.innerHTML = CATEGORIES.map(c => `
+      <button class="tab${c === current.category ? " active" : ""}" data-cat="${c}">
+        <span class="icon" aria-hidden="true">${CATEGORY_ICONS[c] || "•"}</span>
+        <span class="label">${c}</span>
+      </button>
+    `).join("");
+
+    // 切換分類
+    list.addEventListener("click", (e) => {
+      const btn = e.target.closest(".tab");
+      if (!btn) return;
+      setCategory(btn.dataset.cat);
+    });
+
+    // 展開/收合
+    toggle.addEventListener("click", () => {
+      const collapsing = !rail.classList.contains("collapsed");
+      const listEl = rail.querySelector(".rail-list");
+      if (collapsing) {
+        rail.classList.add("collapsed");
+        listEl.style.maxHeight = "0px";
+        localStorage.setItem("categoryRailCollapsed", "1");
+        toggle.setAttribute("aria-expanded", "false");
+      } else {
+        rail.classList.remove("collapsed");
+        listEl.style.maxHeight = "";
+        listEl.style.maxHeight = listEl.scrollHeight + "px";
+        localStorage.setItem("categoryRailCollapsed", "0");
+        toggle.setAttribute("aria-expanded", "true");
+      }
+    });
+
+    rail.appendChild(toggle);
+    rail.appendChild(list);
+
+    // 初始化高度
+    requestAnimationFrame(() => {
+      const listEl = rail.querySelector(".rail-list");
+      const isCollapsed = localStorage.getItem("categoryRailCollapsed") === "1";
+      rail.classList.toggle("collapsed", isCollapsed);
+      if (isCollapsed) {
+        listEl.style.maxHeight = "0px";
+        rail.querySelector(".rail-toggle")?.setAttribute("aria-expanded", "false");
+      } else {
+        listEl.style.maxHeight = listEl.scrollHeight + "px";
+        rail.querySelector(".rail-toggle")?.setAttribute("aria-expanded", "true");
+      }
+    });
+
+    // 視窗改變時，展開狀態下重算高度
+    window.addEventListener("resize", () => {
+      if (!rail.classList.contains("collapsed")) {
+        const listEl = rail.querySelector(".rail-list");
+        listEl.style.maxHeight = "";
+        listEl.style.maxHeight = listEl.scrollHeight + "px";
+      }
+    });
+  }
+
+  // ✅ 關鍵：把 rail 放到 .region-layout 裡，並排成左欄
+  if (rail.parentElement !== regionLayout) {
+    regionLayout.prepend(rail);
+  }
+
+  return rail;
 }
+
 
 function setCategory(cat) {
   current.category = cat;
