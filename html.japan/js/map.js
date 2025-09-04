@@ -123,6 +123,11 @@ document.addEventListener("DOMContentLoaded", () => {
         infoPanel.classList.remove("hidden");
         infoPanel.style.display = "block";
       }
+      const bar = document.querySelector('.header-bar');
+      const title = document.getElementById('region-name');
+
+      if (bar) bar.classList.add('visible');   // 進入資訊頁才顯示
+      if (title) title.textContent = region;   // 同步地區名稱
 
       // ✅ 地圖縮小 + 資訊展開
       document.querySelector(".map-container")?.classList.add("shrinked");
@@ -158,6 +163,8 @@ document.addEventListener("DOMContentLoaded", () => {
     resetBtn.addEventListener("click", () => {
       document.querySelector(".map-container")?.classList.remove("shrinked");
       document.getElementById("info-container")?.classList.remove("expanded");
+      const bar = document.querySelector('.header-bar');
+      if (bar) bar.classList.remove('visible');
       resetView();
 
       // ✅ 隱藏 info panel

@@ -576,13 +576,13 @@ body {
 }
 
 /* 5) 小標題/區塊標 */
-.section h4,
+/* .section h4,
 .section h5 {
     font-weight: 700;
     line-height: var(--lh-tight);
     margin: .75rem 0 .5rem;
 
-}
+} */
 
 /* 6) 清單（看起來更整齊） */
 #spots ul,
@@ -611,7 +611,10 @@ body {
 
 /* === 控制項：月份選擇 Month Select === */
 #month-select {
-    font-size: var(--text-1);
+    font-size: 28px;
+}
+.festivalSelect{
+    font-size: 28px;
 }
 
 /* === 控制項：按鈕 Buttons === */
@@ -751,14 +754,14 @@ a:hover {
 /* 區塊標題與選單（如慶典月份） */
 .section h4 {
     margin: 0 0 12px 0;
-    font-size: clamp(18px, 2.2vw, 22px);
+    font-size: clamp(30px, 2.2vw, 40px);
     line-height: 1.2;
 }
-
+/* 
 .section label,
 .section select {
     font-size: 14px;
-}
+} */
 
 /* 卡片列表：自適應格線 */
 .cards {
@@ -770,13 +773,13 @@ a:hover {
 /* 文字樣式 */
 .media-text h5 {
     margin: 0 0 4px 0;
-    font-size: clamp(15px, 1.8vw, 17px);
+    font-size: clamp(26px, 1.8vw, 36px);
     line-height: 1.35;
 }
 
 .media-text p {
     margin: 0;
-    font-size: 13px;
+    font-size: 16px;
     opacity: .75;
 }
 
@@ -967,15 +970,6 @@ a:hover {
     /* 淡杏米色 */
 }
 
-/* 兩欄版：左 180px 放 rail，右側放內容；標題跨兩欄 */
-/* .info-container>.section {
-    display: grid;
-    grid-template-columns: 180px 1fr;
-    grid-template-areas:
-        "rail content";
-    gap: 25px;
-} */
-
 /* 指定每個元素放到哪一格 */
 #region-name {
     grid-area: title;
@@ -992,8 +986,6 @@ a:hover {
     /* 右欄：內容（含 slide） */
     min-width: 0;
 }
-
-/* 防止 Grid 把內容擠爆 */
 
 /* 讓 slide 在內容區自適應寬度 */
 .slideshowWithDot,
@@ -1112,3 +1104,8 @@ a:hover {
     padding-left: 0 !important;
     display: block;
 }
+.header-bar { display: none; }            /* 預設隱藏整條標題列 */
+.header-bar.visible { display: flex; }    /* 需要時再顯示 */
+
+#region-name { display: none; }           /* 保險起見，標題本身也先關掉 */
+.header-bar.visible #region-name { display: block; }
