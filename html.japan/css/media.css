@@ -1,8 +1,26 @@
 /* ========== Breakpoints（可按需調整） ========== */
+@media (min-width: 1280px) {
+  #region-name {
+    position: relative;
+    top: 40px;
+    /* 距離頂端 */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2000;
+    margin: 0;
+    padding: 10px 16px;
+    font-weight: 800;
+    font-size: clamp(20px, 4vw, 36px);
+    border-radius: 10px;
+    width: max-content;
+    max-width: 90%;
+  }
+}
 
 @media (min-width: 768px) and (max-width: 1279px) {
+
   /* 採直向堆疊 */
-  .region-layout{
+  .region-layout {
     display: flex !important;
     flex-direction: column !important;
     gap: 20px !important;
@@ -12,14 +30,15 @@
   }
 
   /* 1) Slideshow 在最上面 */
-  .slideshowWithDot{
+  .slideshowWithDot {
     order: 0 !important;
     /* 避免基底 flex-basis 撐高造成大空白 */
     flex: 0 0 auto !important;
     width: 100% !important;
     max-width: 100% !important;
   }
-  .slideshowWithDot .slideshow-container{
+
+  .slideshowWithDot .slideshow-container {
     aspect-ratio: 16/9;
     height: auto;
     max-height: 420px;
@@ -27,7 +46,7 @@
   }
 
   /* 2) RAIL 放在中間（全寬、進內容流） */
-  #category-rail{
+  #category-rail {
     order: 1 !important;
     position: static !important;
     align-self: stretch !important;
@@ -35,34 +54,57 @@
     max-width: 100% !important;
     margin: 4px 0 0;
   }
+
   /* RAIL 內容展開（若有收合機制則維持原行為） */
-  #category-rail .rail-list{
+  #category-rail .rail-list {
     max-height: none;
   }
-  #category-rail.collapsed .rail-list{
+
+  #category-rail.collapsed .rail-list {
     max-height: 0;
   }
 
   /* 3) INFO 在最下方，卡片 2 欄 */
-  .info-row{
+  .info-row {
     order: 2 !important;
     width: 100%;
   }
-  #spots .cards, #foods .cards, #festivals .cards{
+
+  #spots .cards,
+  #foods .cards,
+  #festivals .cards {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0,1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 16px;
   }
 
   /* 地圖縮小時的上方間距別太大 */
-  #info-container.expanded{
-    margin-top: 80px !important; /* 視需要再調整 60–100px */
+  #info-container.expanded {
+    margin-top: 80px !important;
+    /* 視需要再調整 60–100px */
     margin-left: 0 !important;
   }
+
+#region-name {
+  position: relative;
+  top: 40px;                 /* 距離頂端，可依需求調整 */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2000;
+  margin: 0;
+  padding: 8px 14px;
+  font-weight: 800;
+  font-size: clamp(16px, 4vw, 32px);
+  border-radius: 10px;
+  width: max-content;
+  max-width: 90%;
+}
+
 }
 
 /* ===== Mobile ≤767：Slide → RAIL → Info ===== */
 @media (max-width: 767px) {
+
   /* 版面改直向堆疊 */
   .region-layout {
     display: flex;
@@ -90,7 +132,10 @@
   }
 
   /* 3) Info 在最下方 */
-  .info-row { order: 2 !important; width: 100%; }
+  .info-row {
+    order: 2 !important;
+    width: 100%;
+  }
 
   /* Slideshow 外觀（手機用） */
   .slideshow-container {
@@ -100,12 +145,15 @@
     border-radius: 10px;
     background: #eee;
   }
+
   .slideshow-container img {
     width: 100%;
     height: 100%;
-    object-fit: cover;   /* 小圖也鋪滿 */
+    object-fit: cover;
+    /* 小圖也鋪滿 */
     object-position: center;
-    display: block;      /* 移除行內空隙 */
+    display: block;
+    /* 移除行內空隙 */
   }
 
   /* 三區塊卡片：單欄 */
@@ -118,11 +166,13 @@
   }
 
   /* 玻璃擬態容器微調 */
-  #spots, #foods, #festivals {
+  #spots,
+  #foods,
+  #festivals {
     padding: 14px;
     border-radius: 12px;
-    box-shadow: 0 6px 18px rgba(0,0,0,.08);
-    border: 1px solid rgba(255,255,255,.28);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .08);
+    border: 1px solid rgba(255, 255, 255, .28);
   }
 
   /* 內文排版 */
@@ -131,6 +181,7 @@
     font-size: clamp(16px, 4.3vw, 18px);
     line-height: 1.35;
   }
+
   .media-text p,
   .hl-desc {
     margin: 0;
@@ -138,23 +189,27 @@
     line-height: 1.5;
     color: #6B7785;
     display: -webkit-box;
-    -webkit-line-clamp: 2;         /* 兩行截斷 */
+    -webkit-line-clamp: 2;
+    /* 兩行截斷 */
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
 
   /* 標題不被小地圖蓋住 */
-  #region-name {
-    position: relative;
-    margin: 8px auto 0;
-    font-size: clamp(18px, 6vw, 24px);
-    padding: 6px 10px;
-    background: rgba(0,0,0,.55);
-    border-radius: 8px;
-    z-index: 20;                   /* 高於 .map-container.shrinked */
-    width: max-content;
-    max-width: 92%;
-  }
+#region-name {
+  position: relative;
+  top: 40px;                 /* 距離頂端，可依需求調整 */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2000;
+  margin: 0;
+  padding: 6px 10px;
+  font-weight: 800;
+  font-size: clamp(16px, 4vw, 26px);
+  border-radius: 10px;
+  width: max-content;
+  max-width: 90%;
+}
 
   /* 縮小地圖更小，避免擋內容 */
   .map-container.shrinked {
@@ -163,32 +218,54 @@
     width: 180px;
     max-height: 180px;
     transform: scale(.65);
-    box-shadow: 0 6px 14px rgba(0,0,0,.15);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, .15);
   }
 
   /* 導覽列：預設收起，需要時顯示 */
-  .top-nav.hidden { display: none !important; }
-  .top-nav.visible { display: block !important; }
+  .top-nav.hidden {
+    display: none !important;
+  }
+
+  .top-nav.visible {
+    display: block !important;
+  }
 }
 
 /* ===== 通用小修：避免 reflow 的圖片行內空隙 ===== */
-.slideshow-container img { display: block; }
+.slideshow-container img {
+  display: block;
+}
 
 
 /* ========== 小調整（所有尺寸共用的安全設定） ========== */
 
 /* 避免圖片因為缺少尺寸造成 reflow */
 .slideshow-container img {
-    display: block;
+  display: block;
 }
 
 /* 可重用卡片網格容器：若頁面上尚未有 .cards 包裝，補一層即可 */
 .cards>.card {
-    background: var(--glass, rgba(255, 255, 255, .5));
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, .35);
-    border-radius: 12px;
-    box-shadow: var(--shadow, 0 10px 24px rgba(0, 0, 0, .08));
-    overflow: hidden;
+  background: var(--glass, rgba(255, 255, 255, .5));
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, .35);
+  border-radius: 12px;
+  box-shadow: var(--shadow, 0 10px 24px rgba(0, 0, 0, .08));
+  overflow: hidden;
+}
+#region-name {
+  opacity: 0;
+  animation: regionFadeIn 0.6s ease forwards;
+}
+
+@keyframes regionFadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -10px); /* 往上浮一點 */
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
 }

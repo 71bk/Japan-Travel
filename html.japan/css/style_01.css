@@ -266,25 +266,26 @@ svg path.hover-dim {
 
 /* === 資訊面板：區域名稱樣式 Region Heading === */
 #region-name {
-    flex: 1;
-    /* 標題佔滿剩餘空間 */
-    margin: 0;
-    padding: 10px 16px;
-    text-align: center;
-    font-weight: 800;
-    color: #fff;
-    background: rgba(0, 0, 0, .6);
-    border-radius: 10px;
-    text-shadow: 0 2px 6px rgba(0, 0, 0, .5);
-    
+  position: relative;   /* 取代 fixed */
+  top: auto; left: 50%;
+  transform: translateX(calc(-50% - var(--mini-map-pad) / 2));
+  z-index: 2000;          /* 保證在其他元素之上 */
+  margin: 0;
+  padding: 10px 16px;
+  font-weight: 800;
+  font-size: clamp(20px, 4vw, 36px);
+  color: #fff;
+  background: rgba(0,0,0,.6);
+  border-radius: 10px;
+  text-shadow: 0 2px 6px rgba(0,0,0,.5);
 }
 
 /* 取消原本易造成偏移的設定 */
-#region-name {
+/* #region-name {
     margin-left: 0 !important;
     min-width: 0 !important;
 }
-
+ */
 
 
 
@@ -889,7 +890,7 @@ a:hover {
     gap: 16px;
     /* 因為小地圖是 fixed 在左上，所以 header 以 padding-left 騰出空間 */
     padding-left: var(--mini-map-pad);
-    min-height: 140px;
+    min-height: 150px;
     /* 讓標題不會與小地圖重疊 */
 }
 
@@ -1149,4 +1150,11 @@ background: linear-gradient(
   width: 50px;           /* 調整大小 */
   height: 50px;
   vertical-align: middle;
+}
+/* 確保 region-name 不會被其他規則覆蓋，真正置中 */
+.header-bar.visible #region-name {
+  position: absolute !important;  /* 相對 header-bar 絕對定位 */
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  margin: 0 !important;
 }
