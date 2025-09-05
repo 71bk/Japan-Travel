@@ -298,7 +298,7 @@ svg path.hover-dim {
     position: relative;
     width: 100%;
     max-width: 1200px;
-    max-height: 600px;
+    max-height: 500px;
     aspect-ratio: 16 / 9;
     /* 保持比例，避免照片把版面撐開 */
     margin: 10px 0;
@@ -308,28 +308,28 @@ svg path.hover-dim {
     /* 沒圖時背景顏色 */
     z-index: 10;
 }
-.slideshow-container img {
+
+/* 提高選擇器專一性，確保不被全域的 img { height:auto } 之類的規則覆蓋 */
+.slideshow-container .mySlides>img,
+.slideshow-container>img {
     width: 100%;
     height: 100%;
-    object-fit: cover;      /* 填滿容器，不變形 */
-    object-position: center; /* 以中間對齊裁切 */
+    object-fit: cover;
+    /* ✅ 填滿並裁切，不變形 */
+    object-position: center;
 }
-
-
 
 
 /* === 投影片：單張容器 Slide Item === */
 .mySlides {
-    display: none;
-    position: relative;
+    display: block;
+    /* 或 flex 皆可，重點是下一行 */
     width: 100%;
-    height: auto;
-    justify-content: center;
-    align-items: center;
-    overflow: visible;
-    /* 避免裁切 */
+    height: 100%;
+    /* ✅ 關鍵：跟著容器高度走 */
+    position: relative;
+    overflow: hidden;
 }
-
 
 /* === 投影片：圖片 Image === */
 /* .mySlides img {
@@ -620,7 +620,8 @@ body {
 #month-select {
     font-size: 28px;
 }
-.festivalSelect{
+
+.festivalSelect {
     font-size: 28px;
 }
 
@@ -765,6 +766,7 @@ a:hover {
     font-size: clamp(30px, 2.2vw, 40px);
     line-height: 1.2;
 }
+
 /* 
 .section label,
 .section select {
@@ -775,7 +777,8 @@ a:hover {
 .cards {
     display: flex;
     flex-direction: column;
-    gap: 12px; /* 每卡片之間間距 */
+    gap: 12px;
+    /* 每卡片之間間距 */
 }
 
 /* 文字樣式 */
@@ -932,11 +935,6 @@ a:hover {
 
 
 
-/* ===== 小提醒：投影片容器層級（避免圓點蓋到卡片）可視需要打開 ===== */
-/*
-.slideshow-container { position: relative; }
-.dots { position: relative; z-index: 1; }
-*/
 /* 固定排序：景點 → 美食 → 慶典 */
 .info-row>.section.spots {
     order: 1;
@@ -1113,7 +1111,9 @@ category-rail .item:hover{ background: rgba(0,0,0,.04); }
   background:#fff; 
   box-shadow: 0 2px 8px rgba(0,0,0,.06);
   border-left:4px solid #6aa6ff; /* 或你的主色 */
-} */
+}
+
+*/
 
 /* 2) 當地圖縮小時，右側整個 info 面板往右留出空間 */
 .map-container.shrinked~.info-container.expanded {
@@ -1121,8 +1121,23 @@ category-rail .item:hover{ background: rgba(0,0,0,.04); }
     padding-left: 0 !important;
     display: block;
 }
-.header-bar { display: none; }            /* 預設隱藏整條標題列 */
-.header-bar.visible { display: flex; }    /* 需要時再顯示 */
 
-#region-name { display: none; }           /* 保險起見，標題本身也先關掉 */
-.header-bar.visible #region-name { display: block; }
+.header-bar {
+    display: none;
+}
+
+/* 預設隱藏整條標題列 */
+.header-bar.visible {
+    display: flex;
+}
+
+/* 需要時再顯示 */
+
+#region-name {
+    display: none;
+}
+
+/* 保險起見，標題本身也先關掉 */
+.header-bar.visible #region-name {
+    display: block;
+}
