@@ -1,125 +1,194 @@
-@media (max-width: 576px){
-  :root{ --text-1:15px; --text-2:16px; --h1:30px; --h4:22px; }
-  .slideshow-container .caption{ padding:6px 8px; border-radius:6px; }
-}
-/* ===== 響應式（手機） ===== */
-/* === 響應式：手機 (<=576px) === */
-@media (max-width: 576px) {
-    body {
-        line-height: var(--lh-loose);
-    }
+/* ========== Breakpoints（可按需調整） ========== */
 
-    .map_title {
-        font-size: var(--h2);
-    }
+@media (min-width: 768px) and (max-width: 1279px) {
+  /* 採直向堆疊 */
+  .region-layout{
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 20px !important;
+    margin: 0 auto;
+    padding: 0 20px;
+    max-width: 1000px;
+  }
 
-    .top-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-    }
+  /* 1) Slideshow 在最上面 */
+  .slideshowWithDot{
+    order: 0 !important;
+    /* 避免基底 flex-basis 撐高造成大空白 */
+    flex: 0 0 auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  .slideshowWithDot .slideshow-container{
+    aspect-ratio: 16/9;
+    height: auto;
+    max-height: 420px;
+    border-radius: 10px;
+  }
 
-    .top-nav {
-        justify-content: flex-start;
-        flex-wrap: wrap;
-    }
-}
+  /* 2) RAIL 放在中間（全寬、進內容流） */
+  #category-rail{
+    order: 1 !important;
+    position: static !important;
+    align-self: stretch !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 4px 0 0;
+  }
+  /* RAIL 內容展開（若有收合機制則維持原行為） */
+  #category-rail .rail-list{
+    max-height: none;
+  }
+  #category-rail.collapsed .rail-list{
+    max-height: 0;
+  }
 
-/* === 響應式：手機 (<=768px) === */
-/* 一律：當寬度小於 1280px 時 → 上圖下文 */
-@media (max-width: 1279px) {
-    .region-layout {
-        display: flex;
-        flex-direction: column;
-        gap: 24px;
-        margin-left: 0;
-        padding-left: 0;
-        max-width: 1000px;
-        /* 避免太寬，可以依需要調整 */
-        margin: 0 auto;
-    }
+  /* 3) INFO 在最下方，卡片 2 欄 */
+  .info-row{
+    order: 2 !important;
+    width: 100%;
+  }
+  #spots .cards, #foods .cards, #festivals .cards{
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: 16px;
+  }
 
-    /* 上：投影片 */
-    .region-layout>.slideshowWithDot {
-        order: 0;
-        width: 100%;
-        max-width: 100%;
-    }
-
-    /* 下：info */
-    .region-layout>.info-row {
-        order: 1;
-        width: 100%;
-    }
-
-    /* 避開左上角縮小地圖（fixed + z-index:999） */
-    #info-container.expanded {
-        margin-top: 160px;
-        /* 可調整 120–200px */
-        margin-left: 0;
-    }
-
-    .category-rail {
-        position: static;
-        width: 100%;
-    }
+  /* 地圖縮小時的上方間距別太大 */
+  #info-container.expanded{
+    margin-top: 80px !important; /* 視需要再調整 60–100px */
+    margin-left: 0 !important;
+  }
 }
 
-@media (max-width: 768px) {
-    .info-row {
-        flex-direction: column;
-        gap: 16px;
-    }
+/* ===== Mobile ≤767：Slide → RAIL → Info ===== */
+@media (max-width: 767px) {
+  /* 版面改直向堆疊 */
+  .region-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-top: 14px;
+  }
 
-    .cards {
-        grid-template-columns: 1fr;
-        /* 手機單欄 */
-    }
+  /* 1) Slide 在最上面，重置彈性尺寸避免被撐高 */
+  .slideshowWithDot {
+    order: 0 !important;
+    flex: 0 0 auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* 2) RAIL 置中全寬，放在中間 */
+  .category-rail {
+    order: 1 !important;
+    position: static !important;
+    align-self: stretch !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0;
+  }
+
+  /* 3) Info 在最下方 */
+  .info-row { order: 2 !important; width: 100%; }
+
+  /* Slideshow 外觀（手機用） */
+  .slideshow-container {
+    width: 100%;
+    aspect-ratio: 16/9;
+    max-height: unset;
+    border-radius: 10px;
+    background: #eee;
+  }
+  .slideshow-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;   /* 小圖也鋪滿 */
+    object-position: center;
+    display: block;      /* 移除行內空隙 */
+  }
+
+  /* 三區塊卡片：單欄 */
+  #spots .cards,
+  #foods .cards,
+  #festivals .cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  /* 玻璃擬態容器微調 */
+  #spots, #foods, #festivals {
+    padding: 14px;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,.08);
+    border: 1px solid rgba(255,255,255,.28);
+  }
+
+  /* 內文排版 */
+  .media-text h5 {
+    margin: 0 0 4px 0;
+    font-size: clamp(16px, 4.3vw, 18px);
+    line-height: 1.35;
+  }
+  .media-text p,
+  .hl-desc {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #6B7785;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;         /* 兩行截斷 */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* 標題不被小地圖蓋住 */
+  #region-name {
+    position: relative;
+    margin: 8px auto 0;
+    font-size: clamp(18px, 6vw, 24px);
+    padding: 6px 10px;
+    background: rgba(0,0,0,.55);
+    border-radius: 8px;
+    z-index: 20;                   /* 高於 .map-container.shrinked */
+    width: max-content;
+    max-width: 92%;
+  }
+
+  /* 縮小地圖更小，避免擋內容 */
+  .map-container.shrinked {
+    top: 14px;
+    left: 14px;
+    width: 180px;
+    max-height: 180px;
+    transform: scale(.65);
+    box-shadow: 0 6px 14px rgba(0,0,0,.15);
+  }
+
+  /* 導覽列：預設收起，需要時顯示 */
+  .top-nav.hidden { display: none !important; }
+  .top-nav.visible { display: block !important; }
+}
+
+/* ===== 通用小修：避免 reflow 的圖片行內空隙 ===== */
+.slideshow-container img { display: block; }
 
 
-    #info-container.expanded {
-        margin-left: 0;
-        /* 手機不需要右移 */
-        margin-top: 12px;
-        /* 與縮小地圖留點距離 */
-    }
+/* ========== 小調整（所有尺寸共用的安全設定） ========== */
 
-    body {
-        flex-direction: column;
-        align-items: center;
-    }
+/* 避免圖片因為缺少尺寸造成 reflow */
+.slideshow-container img {
+    display: block;
+}
 
-    .info-container {
-        width: 100%;
-        /* 滿版資訊欄 */
-        border-top: 2px solid #ccc;
-        /* 改為頂部分隔線 */
-        margin-top: 20px;
-        /* 與地圖保持間距 */
-    }
-
-    .map-container {
-        padding: 10px;
-        width: 100%;
-    }
-
-    /* 1) 讓整組「輪播 + info」改成直向排列 */
-    .region-layout {
-        flex-direction: column;
-        gap: 16px;
-        margin-left: 0;
-        padding-left: 0;
-    }
-
-    /* 2) 排序：輪播在上、info 在下 */
-    .slideshowWithDot {
-        order: 0;
-        width: 100%;
-        max-width: 100%;
-    }
-
-    .info-row {
-        order: 1;
-        width: 100%;
-    }
+/* 可重用卡片網格容器：若頁面上尚未有 .cards 包裝，補一層即可 */
+.cards>.card {
+    background: var(--glass, rgba(255, 255, 255, .5));
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, .35);
+    border-radius: 12px;
+    box-shadow: var(--shadow, 0 10px 24px rgba(0, 0, 0, .08));
+    overflow: hidden;
 }

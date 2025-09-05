@@ -276,6 +276,7 @@ svg path.hover-dim {
     background: rgba(0, 0, 0, .6);
     border-radius: 10px;
     text-shadow: 0 2px 6px rgba(0, 0, 0, .5);
+    
 }
 
 /* 取消原本易造成偏移的設定 */
@@ -882,7 +883,6 @@ a:hover {
 /* 標題跟小地圖排版 */
 .header-bar {
     position: sticky;
-    top: 12px;
     z-index: 20;
     display: flex;
     align-items: center;
@@ -1131,3 +1131,22 @@ body {
   color: #e5e7eb;     /* 預設字體淺灰 */
 }
 
+.header-bar{
+background: linear-gradient(
+  135deg,
+  #e8b584, /* 焦糖米橘 */
+  #d79d72, /* 奶茶棕橘 */
+  #c28663  /* 杏仁棕 */
+);
+}
+#region-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;              /* 文字與圖示距離 */
+}
+
+#region-name .region-icon {
+  width: 50px;           /* 調整大小 */
+  height: 50px;
+  vertical-align: middle;
+}

@@ -7,6 +7,16 @@ let infoEl, nameEl, spotsEl, festivalsEl, foodsEl, monthSelect;
 let selectedMonth = new Date().getMonth() + 1; // 1~12：預設當月
 let currentRegion = null;
 let monthSelectBound = false; // 確保只綁一次 change 事件
+const REGION_ICONS = {
+  "北海道": "./image/icon/P_shiretoko.svg",
+  "東北": "./image/icon/P_tohoku.svg",
+  "關東": "./image/icon/P_kanto.svg",
+  "中部": "./image/icon/P_chubu.svg",
+  "近畿": "./image/icon/P_kinki.svg",
+  "中國": "./image/icon/P_chugoku.svg",
+  "四國": "./image/icon/P_shikoku.svg",
+  "九州沖繩": "./image/icon/P_kyushu.svg"
+};
 
 // ---- 小工具：把資料正規化為 { 名稱, 說明 } ----
 const normalizeItem = (it) =>
@@ -104,7 +114,12 @@ export function showRegionInfo(region) {
 
   // 顯示面板與標題
   infoEl.style.display = "block";
-  if (nameEl) nameEl.innerText = region;
+  if (nameEl) {
+  const icon = REGION_ICONS[region] 
+    ? `<img src="${REGION_ICONS[region]}" alt="${region} icon" class="region-icon">` 
+    : "";
+  nameEl.innerHTML = ` ${icon}${region}`;
+}
 
   // 1) 景點
   const spots = (data[region].景點 || []).map(normalizeItem);
