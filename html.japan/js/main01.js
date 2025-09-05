@@ -5,7 +5,6 @@ import "./info.js";
 import "./map.js";
 import "./slideshow.js";
 import "./detailView.js";
+import "./highlights.js";
 
-
-
-
+// main01.js

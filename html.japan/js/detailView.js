@@ -12,7 +12,7 @@ let current = { region: null, category: "景點" };
  * 若沒有對應的類別圖片，會自動退回用區域的預設輪播（slideshow.js 既有）。
  * 路徑請依你的專案調整或之後慢慢補。
  */
-const regionCategoryPhotos = {
+export const regionCategoryPhotos = {
   "北海道": {
     "景點": [
       "./image/pic/北海道/札幌時計台.jpg",
@@ -56,7 +56,7 @@ const regionCategoryPhotos = {
   },
   "關東": {
     景點: [
-      "./image/pic/關東/東京晴空塔.jpg",
+      "./image/pic/關東/晴空塔.jpg",
       "./image/pic/關東/淺草寺.jpg",
       "./image/pic/關東/東京塔.jpg",
       "./image/pic/關東/日光東照宮.jpg",
@@ -187,6 +187,15 @@ function ensureCategoryRail() {
         <span class="label">${c}</span>
       </button>
     `).join("");
+    if (!list.querySelector('#rail-highlights')) {
+      list.insertAdjacentHTML('beforeend', `
+    <section id="rail-highlights" class="rail-highlights" aria-hidden="false">
+      <h5 class="hl-titlebar">本區精選</h5>
+      <div class="rail-hl-list" id="rail-hl-list"></div>
+    </section>
+  `);
+    }
+
 
     // 切換分類
     list.addEventListener("click", (e) => {
@@ -279,6 +288,7 @@ function enterDetail(region) {
   showRegionInfo(region);
   ensureCategoryRail();
   setCategory("景點");
+
 }
 
 // 從地圖點選區域後進入詳情

@@ -1,0 +1,32 @@
+/* 左側 rail 版的精選卡片（會比主內容更窄） */
+.rail-highlights{
+  margin-top: 12px;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #E6E9EE;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(16,24,40,.06);
+}
+.rail-highlights h5{
+  margin: 0 0 8px;
+  font-weight: 800;
+  letter-spacing: .02em;
+  display:flex; align-items:center; gap:6px;
+}
+.rail-hl-list{ display: grid; gap: 8px; }
+.rail-hl-card{
+  display: grid; grid-template-columns: 64px 1fr; gap: 8px;
+  align-items: center;
+  border: 1px solid #EEF1F6; border-radius: 10px; padding: 6px;
+  background: #fff; text-decoration: none; color: inherit;
+}
+.rail-hl-card:hover{ box-shadow: 0 6px 16px rgba(16,24,40,.08); transform: translateY(-1px); }
+.rail-hl-thumb{ width: 64px; height: 48px; border-radius: 8px; object-fit: cover; background:#f2f4f7; }
+.rail-hl-title{
+  margin:0; font-weight: 800; font-size: 14px; line-height:1.2;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.rail-hl-kicker{ font-size: 11px; padding: 1px 6px; border-radius: 999px; display:inline-block; margin-bottom:2px; background:#F7F8FA; color:#586174; }
+.rail-hl-kicker.spot{ background:#E9F3FF; color:#135DFF; }
+.rail-hl-kicker.food{ background:#FFF2E5; color:#FF8A00; }
+.rail-hl-kicker.fes { background:#F1E8FF; color:#7A3EF0; }
