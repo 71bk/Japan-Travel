@@ -1,0 +1,125 @@
+@media (max-width: 576px){
+  :root{ --text-1:15px; --text-2:16px; --h1:30px; --h4:22px; }
+  .slideshow-container .caption{ padding:6px 8px; border-radius:6px; }
+}
+/* ===== 響應式（手機） ===== */
+/* === 響應式：手機 (<=576px) === */
+@media (max-width: 576px) {
+    body {
+        line-height: var(--lh-loose);
+    }
+
+    .map_title {
+        font-size: var(--h2);
+    }
+
+    .top-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .top-nav {
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+}
+
+/* === 響應式：手機 (<=768px) === */
+/* 一律：當寬度小於 1280px 時 → 上圖下文 */
+@media (max-width: 1279px) {
+    .region-layout {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        margin-left: 0;
+        padding-left: 0;
+        max-width: 1000px;
+        /* 避免太寬，可以依需要調整 */
+        margin: 0 auto;
+    }
+
+    /* 上：投影片 */
+    .region-layout>.slideshowWithDot {
+        order: 0;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    /* 下：info */
+    .region-layout>.info-row {
+        order: 1;
+        width: 100%;
+    }
+
+    /* 避開左上角縮小地圖（fixed + z-index:999） */
+    #info-container.expanded {
+        margin-top: 160px;
+        /* 可調整 120–200px */
+        margin-left: 0;
+    }
+
+    .category-rail {
+        position: static;
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .info-row {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .cards {
+        grid-template-columns: 1fr;
+        /* 手機單欄 */
+    }
+
+
+    #info-container.expanded {
+        margin-left: 0;
+        /* 手機不需要右移 */
+        margin-top: 12px;
+        /* 與縮小地圖留點距離 */
+    }
+
+    body {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .info-container {
+        width: 100%;
+        /* 滿版資訊欄 */
+        border-top: 2px solid #ccc;
+        /* 改為頂部分隔線 */
+        margin-top: 20px;
+        /* 與地圖保持間距 */
+    }
+
+    .map-container {
+        padding: 10px;
+        width: 100%;
+    }
+
+    /* 1) 讓整組「輪播 + info」改成直向排列 */
+    .region-layout {
+        flex-direction: column;
+        gap: 16px;
+        margin-left: 0;
+        padding-left: 0;
+    }
+
+    /* 2) 排序：輪播在上、info 在下 */
+    .slideshowWithDot {
+        order: 0;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .info-row {
+        order: 1;
+        width: 100%;
+    }
+}

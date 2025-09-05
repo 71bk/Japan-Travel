@@ -8,8 +8,6 @@ body {
     min-height: 100vh;
 }
 
-
-
 /* === 背景影片 Background Video === */
 .bg-video {
     position: absolute;
@@ -273,7 +271,6 @@ svg path.hover-dim {
     margin: 0;
     padding: 10px 16px;
     text-align: center;
-    font-size: clamp(20px, 4vw, 36px);
     font-weight: 800;
     color: #fff;
     background: rgba(0, 0, 0, .6);
@@ -482,34 +479,9 @@ svg path.hover-dim {
 }
 
 
-/* 字形 */
-
-/* === 設計系統：字型大小/行高/顏色 Design Tokens === */
 :root {
-    --font-sans: "Noto Sans TC", system-ui, -apple-system, Segoe UI, Roboto, Arial, "Microsoft JhengHei", sans-serif;
-    --text-1: clamp(14px, 1.5vw, 16px);
-    /* 內文 */
-    --text-2: clamp(16px, 1.8vw, 18px);
     /* 設一個小地圖的保留寬度（地圖寬 250 + 左右間距） */
     --mini-map-pad: 280px;
-    /* 次要標題/重點 */
-    --h6: clamp(16px, 2.0vw, 20px);
-    --h5: clamp(18px, 2.4vw, 24px);
-    --h4: clamp(20px, 3.0vw, 28px);
-    --h3: clamp(22px, 3.5vw, 32px);
-    --h2: clamp(26px, 4.2vw, 42px);
-    --h1: clamp(32px, 5.0vw, 56px);
-
-    --lh-tight: 1.25;
-    --lh-base: 1.7;
-    --lh-loose: 1.9;
-
-    --muted: rgba(255, 255, 255, .75);
-    /* 深色底用 */
-    --ink: #1f2937;
-    /* 淺色底字色 */
-    --ink-2: #4b5563;
-    /* 次要文字 */
     --brand: #0d6efd;
     /* Bootstrap 主色（可改） */
 }
@@ -527,15 +499,6 @@ body {
     line-height: var(--lh-base);
 }
 
-/* 3) 左側深色區（影片上方） */
-.map_title {
-    font-size: var(--h1);
-    font-weight: 800;
-    letter-spacing: .02em;
-    text-shadow: 0 2px 16px rgba(0, 0, 0, .35);
-    /* 提高對比 */
-}
-
 .map_tip {
     color: var(--muted);
     font-size: var(--text-2);
@@ -549,47 +512,12 @@ body {
     color: var(--ink);
 }
 
-/* #region-name {
-    font-weight: 800;
-    letter-spacing: .01em;
-} */
-
 /* === 資訊面板：清單正文 Lists Typography === */
-#spots,
-#festivals {
-    font-size: var(--text-1);
-    line-height: var(--lh-loose);
-    color: var(--ink);
-}
-
-/* === 資訊面板：粗體標籤 Strong Labels === */
-#spots strong,
-#festivals strong {
-    color: var(--ink);
-    font-weight: 700;
-}
-
-/* === 資訊面板：次要標籤 Secondary Labels === */
-#spots .label,
-#festivals .label {
-    /* 若你有用到標籤字樣 */
-    color: var(--ink-2);
-    font-weight: 600;
-}
 
 .spot-text {
     font-size: 18px;
     /* 後面內容字體大小 */
 }
-
-/* 5) 小標題/區塊標 */
-/* .section h4,
-.section h5 {
-    font-weight: 700;
-    line-height: var(--lh-tight);
-    margin: .75rem 0 .5rem;
-
-} */
 
 /* 6) 清單（看起來更整齊） */
 #spots ul,
@@ -604,15 +532,7 @@ body {
     margin: .15rem 0;
 }
 
-/* 7) 投影片 caption（不遮圖又好讀） */
-.slideshow-container .caption {
-    font-size: clamp(14px, 2.2vw, 18px);
-    line-height: var(--lh-tight);
-    font-weight: 600;
-    letter-spacing: .01em;
-    color: #fff;
-    text-shadow: 0 1px 8px rgba(0, 0, 0, .6);
-}
+
 
 /* 8) 控制項（選單/按鈕的字） */
 
@@ -758,21 +678,6 @@ a:hover {
     gap: 20px;
 }
 
-
-
-/* 區塊標題與選單（如慶典月份） */
-.section h4 {
-    margin: 0 0 12px 0;
-    font-size: clamp(30px, 2.2vw, 40px);
-    line-height: 1.2;
-}
-
-/* 
-.section label,
-.section select {
-    font-size: 14px;
-} */
-
 /* 卡片列表：自適應格線 */
 .cards {
     display: flex;
@@ -787,13 +692,6 @@ a:hover {
     font-size: clamp(26px, 1.8vw, 36px);
     line-height: 1.35;
 }
-
-.media-text p {
-    margin: 0;
-    font-size: 16px;
-    opacity: .75;
-}
-
 /* ===== Map 縮小與 Info 展開的對位調整（桌機） ===== */
 .map-container.shrinked {
     position: fixed;
@@ -809,131 +707,6 @@ a:hover {
     transform: scale(0.6);
     transform-origin: top left;
 }
-
-
-/* ===== 響應式（手機） ===== */
-/* === 響應式：手機 (<=576px) === */
-@media (max-width: 576px) {
-    body {
-        line-height: var(--lh-loose);
-    }
-
-    .map_title {
-        font-size: var(--h2);
-    }
-
-    .top-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-    }
-
-    .top-nav {
-        justify-content: flex-start;
-        flex-wrap: wrap;
-    }
-}
-
-/* === 響應式：手機 (<=768px) === */
-/* 一律：當寬度小於 1280px 時 → 上圖下文 */
-@media (max-width: 1279px) {
-    .region-layout {
-        display: flex;
-        flex-direction: column;
-        gap: 24px;
-        margin-left: 0;
-        padding-left: 0;
-        max-width: 1000px;
-        /* 避免太寬，可以依需要調整 */
-        margin: 0 auto;
-    }
-
-    /* 上：投影片 */
-    .region-layout>.slideshowWithDot {
-        order: 0;
-        width: 100%;
-        max-width: 100%;
-    }
-
-    /* 下：info */
-    .region-layout>.info-row {
-        order: 1;
-        width: 100%;
-    }
-
-    /* 避開左上角縮小地圖（fixed + z-index:999） */
-    #info-container.expanded {
-        margin-top: 160px;
-        /* 可調整 120–200px */
-        margin-left: 0;
-    }
-
-    .category-rail {
-        position: static;
-        width: 100%;
-    }
-}
-
-@media (max-width: 768px) {
-    .info-row {
-        flex-direction: column;
-        gap: 16px;
-    }
-
-    .cards {
-        grid-template-columns: 1fr;
-        /* 手機單欄 */
-    }
-
-
-    #info-container.expanded {
-        margin-left: 0;
-        /* 手機不需要右移 */
-        margin-top: 12px;
-        /* 與縮小地圖留點距離 */
-    }
-
-    body {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .info-container {
-        width: 100%;
-        /* 滿版資訊欄 */
-        border-top: 2px solid #ccc;
-        /* 改為頂部分隔線 */
-        margin-top: 20px;
-        /* 與地圖保持間距 */
-    }
-
-    .map-container {
-        padding: 10px;
-        width: 100%;
-    }
-
-    /* 1) 讓整組「輪播 + info」改成直向排列 */
-    .region-layout {
-        flex-direction: column;
-        gap: 16px;
-        margin-left: 0;
-        padding-left: 0;
-    }
-
-    /* 2) 排序：輪播在上、info 在下 */
-    .slideshowWithDot {
-        order: 0;
-        width: 100%;
-        max-width: 100%;
-    }
-
-    .info-row {
-        order: 1;
-        width: 100%;
-    }
-}
-
-
 
 /* 固定排序：景點 → 美食 → 慶典 */
 .info-row>.section.spots {
@@ -1095,26 +868,6 @@ a:hover {
     /* 讓標題不會與小地圖重疊 */
 }
 
-/* #category-rail{
-  width: 190px;
-  background: #fafafa;
-  border-right: 1px solid #e6e6e6;
-  padding: 14px;
-  position: sticky; top: 80px;
-}
-#category-rail .item{
-  display:flex; align-items:center; gap:10px;
-  padding:10px 8px; border-radius:10px; cursor:pointer;
-}
-category-rail .item:hover{ background: rgba(0,0,0,.04); }
-#category-rail .item.active{ 
-  background:#fff; 
-  box-shadow: 0 2px 8px rgba(0,0,0,.06);
-  border-left:4px solid #6aa6ff; /* 或你的主色 */
-}
-
-*/
-
 /* 2) 當地圖縮小時，右側整個 info 面板往右留出空間 */
 .map-container.shrinked~.info-container.expanded {
     left: 0;
@@ -1140,4 +893,68 @@ category-rail .item:hover{ background: rgba(0,0,0,.04); }
 /* 保險起見，標題本身也先關掉 */
 .header-bar.visible #region-name {
     display: block;
+}
+/* 字形調整 */
+/* === Typography & Color — gentle tuning overrides === */
+
+/* 1) 設計變數：收斂字級、提高內文字對比 */
+:root{
+  --ink:  #1f2937;        /* 主字色：深灰 */
+  --ink-2:#374151;        /* 次要字：比原本更清楚 */
+  --muted:#6b7280;
+
+  --lh-tight: 1.3;
+  --lh-base: 1.6;         /* 內文行高從 1.7–1.9 收斂到 1.6 */
+  --lh-loose: 1.75;
+
+  --text-1: clamp(15px, 1.4vw, 16px);  /* 內文 */
+  --text-2: clamp(16px, 1.6vw, 18px);  /* 次要大字 */
+
+  --h6: clamp(16px, 1.8vw, 18px);
+  --h5: clamp(18px, 2.0vw, 22px);
+  --h4: clamp(20px, 2.2vw, 26px);      /* 區塊標題收斂 */
+  --h3: clamp(22px, 2.8vw, 30px);
+  --h2: clamp(24px, 3.6vw, 36px);
+  --h1: clamp(28px, 4.6vw, 44px);      /* 主標題不再過大 */
+}
+
+/* 2) 全域文字：提高對比、不用透明度當次要色 */
+html, body { font-size: var(--text-1); line-height: var(--lh-base); color: var(--ink); }
+#info-container { color: var(--ink); }
+#spots, #festivals { color: var(--ink); line-height: var(--lh-loose); }
+#spots strong, #festivals strong { color: var(--ink); font-weight: 700; }
+
+/* 3) 標題尺寸微調（地圖主標、區域名、區塊標題） */
+.map_title { font-size: var(--h1); font-weight: 800; letter-spacing: .01em; }
+#region-name { font-size: clamp(22px, 3.2vw, 34px); background: rgba(0,0,0,.55); }
+.section h4 { margin: 0 0 10px; font-size: var(--h4); line-height: 1.25; }
+
+/* 4) 內文段落：取消 0.75 透明度，改用明確深灰 */
+.media-text p { margin: 0; font-size: 16px; color: var(--ink-2); opacity: 1; }
+
+/* 5) 連結狀態：略強一點的 hover 對比 */
+a{ color:#0d6efd; text-decoration:none; }
+a:hover{ color:#0b5ed7; text-decoration:underline; }
+
+/* 6) Slideshow caption：黑底改半透明白底＋深色字，更好讀 */
+.slideshow-container .caption{
+  top:12px; left:12px;
+  padding:6px 10px;
+  font-size: clamp(13px, 2.0vw, 16px);
+  font-weight: 600;
+  color:#111;
+  background: rgba(255,255,255,.88);
+  border-radius: 8px;
+  text-shadow: none;
+  backdrop-filter: blur(2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,.12);
+}
+
+/* 7) 左側精選卡：標題對比與描述色統一 */
+.rail-hl-title{ color:#111; font-weight:800; }
+.hl-desc{
+  margin:2px 0 0;
+  font-size:13px;
+  color:#6B7785;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
 }
