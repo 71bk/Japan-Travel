@@ -139,7 +139,10 @@ document.addEventListener("DOMContentLoaded", () => {
       showRegionInfo(region);
       loadSlideshowFor(region);
       document.dispatchEvent(new CustomEvent("region-selected", { detail: { region } }));
-
+      window.currentRegion = region;
+      //按鈕出現
+      const resetBtn = document.getElementById("reset-btn");
+      if (resetBtn) resetBtn.style.display = "flex"; // 或 "block"
 
     });
 
@@ -165,6 +168,7 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("info-container")?.classList.remove("expanded");
       const bar = document.querySelector('.header-bar');
       if (bar) bar.classList.remove('visible');
+      if (resetBtn) resetBtn.style.display = "none";
       resetView();
 
       // ✅ 隱藏 info panel
@@ -177,5 +181,58 @@ document.addEventListener("DOMContentLoaded", () => {
 
     });
   }
+  function openRegion(region) {
+    if (!regionIndex[region]) return;
+    // 顯示標題列（避免還停在 display:none）
+    const bar = document.querySelector('.header-bar');
+    if (bar) bar.classList.add('visible');
+
+    // 寫入並確保名稱顯示
+    const title = document.getElementById('region-name');
+    if (title) {
+      title.textContent = region;
+      title.hidden = false;
+      title.style.display = 'block';
+      title.style.opacity = '1';
+    }
+
+
+    // 顯示右側 info-panel
+    const infoPanel = document.getElementById("info-container");
+    if (infoPanel) {
+      infoPanel.classList.remove("hidden");
+      infoPanel.style.display = "block";
+    }
+
+    // 地圖縮小 + 資訊展開
+    document.querySelector(".map-container")?.classList.add("shrinked");
+    infoPanel?.classList.add("expanded");
+
+    // 更新地圖與資料
+    focusRegion(region);
+    zoomToBox(getRegionBBox(region));
+    showRegionInfo(region);
+    loadSlideshowFor(region);
+
+    // 通知其他模組（套用主題、刷新精選…）
+    document.dispatchEvent(new CustomEvent("region-selected", { detail: { region } }));
+    window.currentRegion = region;
+
+    // 可選：把視窗捲到資訊區
+    const target = document.getElementById("info-container");
+    target?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  // === 首次載入：若網址有 #區域，直接打開 ===
+  const initialHash = decodeURIComponent(location.hash.replace(/^#/, ""));
+  if (initialHash) {
+    openRegion(initialHash);
+  }
+
+  // === 監聽 hash 變化（例如手動改 #，或未來站內切換） ===
+  window.addEventListener("hashchange", () => {
+    const h = decodeURIComponent(location.hash.replace(/^#/, ""));
+    if (h) openRegion(h);
+  });
 
 });

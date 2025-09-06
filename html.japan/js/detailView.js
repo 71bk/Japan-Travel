@@ -1,6 +1,7 @@
 // ./js/detailView.js
 import { showRegionInfo } from "./info.js";
 import { loadSlideshowForCategory } from "./slideshow.js";
+import { detailUrl } from "./utils.js";
 
 // 三個分類（預設：景點）
 const CATEGORIES = ["景點", "美食", "慶典"];
@@ -20,20 +21,16 @@ export const regionCategoryPhotos = {
       "./image/pic/北海道/富良野花田.jpg",
       "./image/pic/北海道/旭川動物園.jpg",
       "./image/pic/北海道/知床五湖.jpg"
-
-
     ],
     "美食": [
       "./image/pic/北海道/成吉思汗烤肉.jpg",
       "./image/pic/北海道/海鮮丼.jpg",
-      "./image/pic/北海道/函館鹽拉麵.jpg",
-
+      "./image/pic/北海道/函館鹽拉麵.jpg"
     ],
     "慶典": [
-      "./image/pic/北海道/2月札幌雪祭.jpg",
-      "./image/pic/北海道/6月YOSAKOI索朗祭.jpg",
-      "./image/pic/北海道/8月良野花田祭.jpg",
-
+      "./image/pic/北海道/札幌雪祭.jpg",
+      "./image/pic/北海道/YOSAKOI索朗祭.jpg",
+      "./image/pic/北海道/富良野花田祭.jpg"
     ]
   },
   "東北": {
@@ -49,9 +46,9 @@ export const regionCategoryPhotos = {
       "./image/pic/東北/稻庭烏龍麵.jpg"
     ],
     慶典: [
-      "./image/pic/東北/8月青森睡魔祭.jpg",
-      "./image/pic/東北/8月秋田竿燈祭.jpg",
-      "./image/pic/東北/8月仙台七夕祭.jpg"
+      "./image/pic/東北/青森睡魔祭.jpg",
+      "./image/pic/東北/秋田竿燈祭.jpg",
+      "./image/pic/東北/仙台七夕祭.jpg"
     ]
   },
   "關東": {
@@ -67,10 +64,9 @@ export const regionCategoryPhotos = {
       "./image/pic/關東/雷門人形燒.jpg"
     ],
     慶典: [
-      "./image/pic/關東/6月鎌倉紫陽花祭.jpg",
-      "./image/pic/關東/7月隅田川花火大會.jpg"
+      "./image/pic/關東/鎌倉紫陽花祭.jpg",
+      "./image/pic/關東/隅田川花火大會.jpg"
     ]
-
   },
   "中部": {
     景點: [
@@ -85,9 +81,8 @@ export const regionCategoryPhotos = {
       "./image/pic/中部/飛驒牛.jpg"
     ],
     慶典: [
-      "./image/pic/中部/8月長岡花火大會.jpg"
+      "./image/pic/中部/長岡花火大會.jpg"
     ]
-
   },
   "近畿": {
     景點: [
@@ -102,11 +97,10 @@ export const regionCategoryPhotos = {
       "./image/pic/近畿/宇治抹茶甜點.jpg"
     ],
     慶典: [
-      "./image/pic/近畿/7月祇園祭.jpg",
-      "./image/pic/近畿/8月京都五山送火.jpg",
-      "./image/pic/近畿/8月天神祭.jpg"
+      "./image/pic/近畿/祇園祭.jpg",
+      "./image/pic/近畿/京都五山送火.jpg",
+      "./image/pic/近畿/天神祭.jpg"
     ]
-
   },
   "中國": {
     景點: [
@@ -120,9 +114,8 @@ export const regionCategoryPhotos = {
       "./image/pic/中國/[廿日市宮島町] 牡蠣林.jpg"
     ],
     慶典: [
-      "./image/pic/中國/10月宮島水中花火.jpg"
+      "./image/pic/中國/宮島水中花火.jpg"
     ]
-
   },
   "四國": {
     景點: [
@@ -135,9 +128,8 @@ export const regionCategoryPhotos = {
       "./image/pic/四國/讚岐烏龍麵.jpg"
     ],
     慶典: [
-      "./image/pic/四國/8月阿波舞.jpg"
+      "./image/pic/四國/阿波舞.jpg"
     ]
-
   },
   "九州沖繩": {
     景點: [
@@ -151,10 +143,10 @@ export const regionCategoryPhotos = {
       "./image/pic/九州沖繩/豚骨拉麵.jpg"
     ],
     慶典: [
-      "./image/pic/九州沖繩/8月那霸大綱挽.jpg"
+      "./image/pic/九州沖繩/那霸大綱挽.jpg"
     ]
-
   }
+
 };
 
 function ensureCategoryRail() {
@@ -199,8 +191,14 @@ function ensureCategoryRail() {
 
     // 切換分類
     list.addEventListener("click", (e) => {
-      const btn = e.target.closest(".tab");
+      // 1) 點到精選卡片（<a class="rail-hl-card">）→ 直接讓瀏覽器處理
+      const card = e.target.closest("a.rail-hl-card");
+      if (card) return;
+
+      // 2) 點到分類 Tab（<button class="tab" data-cat>）→ 切換分類
+      const btn = e.target.closest("button.tab[data-cat]");
       if (!btn) return;
+      e.preventDefault();
       setCategory(btn.dataset.cat);
     });
 

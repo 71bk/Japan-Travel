@@ -6,8 +6,7 @@
 
 import { data as DATA } from "./data.js";
 import { regionCategoryPhotos as PHOTOS } from "./detailView.js";
-
-const DETAIL_PAGE = "detail.html"; // 換成你的詳頁檔名
+import { detailUrl } from "./utils.js";
 
 function firstItem(arr){
   if (!Array.isArray(arr) || !arr.length) return null;
@@ -34,10 +33,6 @@ function resolveThumb(region, category, name){
   }
   const fallback = { 景點:"./image/placeholder/spot.jpg", 美食:"./image/placeholder/food.jpg", 慶典:"./image/placeholder/festival.jpg" };
   return fallback[category] || "./image/placeholder/blank.jpg";
-}
-function detailUrl({ region, category, name }){
-  const q = new URLSearchParams({ region, category, name }).toString();
-  return `${DETAIL_PAGE}?${q}`;
 }
 
 export function renderRailHighlights(region){

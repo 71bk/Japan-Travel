@@ -173,6 +173,10 @@ svg path.hover-dim {
     border-radius: 50%;
     z-index: 1000;
 }
+#reset-btn {
+  display: none; /* 預設隱藏 */
+}
+
 
 /* 按鈕 */
 
@@ -269,7 +273,7 @@ svg path.hover-dim {
   position: relative;   /* 取代 fixed */
   top: auto; left: 50%;
   transform: translateX(calc(-50% - var(--mini-map-pad) / 2));
-  z-index: 2000;          /* 保證在其他元素之上 */
+  z-index: 9999;          /* 保證在其他元素之上 */
   margin: 0;
   padding: 10px 16px;
   font-weight: 800;
@@ -893,7 +897,10 @@ a:hover {
     min-height: 150px;
     /* 讓標題不會與小地圖重疊 */
 }
-
+.header-bar.visible{
+  opacity: 1;
+  max-height: 200px; /* 足夠顯示標題列 */
+}
 /* 2) 當地圖縮小時，右側整個 info 面板往右留出空間 */
 .map-container.shrinked~.info-container.expanded {
     left: 0;

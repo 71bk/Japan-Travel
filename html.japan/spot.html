@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="light">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>景點詳細｜通用模板（含深/淺色主題切換）</title>
+  <!-- 如要獨立維護樣式：建立 detail.css，並保留下列 <link>；頁尾的 <style> 內容即可另存為 detail.css -->
+  <!-- <link rel="stylesheet" href="detail.css"> -->
+  <style>
+    /* ==========================
+       主題變數（Light / Dark）
+       ========================== */
+    :root {
+      /* Light */
+      --bg: #f5f7fb;
+      --fg: #0f172a;
+      --muted: #475569;
+      --brand: #2563eb;
+      --card: #ffffff;
+      --border: #e2e8f0;
+      --radius: 14px;
+      --shadow: 0 4px 12px rgba(0, 0, 0, .12);
+      --hero-overlay-from: rgba(255, 255, 255, 0);
+      --hero-overlay-to: rgba(255, 255, 255, .70);
+      --hero-img-brightness: 1.08;
+      /* 稍微提亮 */
+    }
+
+    [data-theme="dark"] {
+      --bg: #0b132b;
+      --fg: #f8fafc;
+      --muted: #94a3b8;
+      --brand: #60a5fa;
+      --card: #0f172a;
+      --border: #1f2937;
+      --shadow: 0 10px 30px rgba(0, 0, 0, .28);
+      --hero-overlay-from: rgba(0, 0, 0, 0);
+      --hero-overlay-to: rgba(0, 0, 0, .65);
+      --hero-img-brightness: 1.0;
+      /* 深色主題不再額外提亮 */
+    }
+
+    /* ==========================
+       基礎樣式（可外拆為 detail.css）
+       ========================== */
+    * {
+      box-sizing: border-box
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: "Noto Sans TC", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial
+    }
+
+    a {
+      color: var(--brand);
+      text-decoration: none
+    }
+
+    a:hover {
+      text-decoration: underline
+    }
+
+    .container {
+      max-width: 1080px;
+      margin-inline: auto;
+      padding: 24px;
+      position: relative
+    }
+
+    .theme-toggle {
+      position: fixed;
+      right: 24px;
+      top: 16px;
+      z-index: 1000;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--fg);
+      padding: 8px 12px;
+      border-radius: 999px;
+      box-shadow: var(--shadow);
+      cursor: pointer
+    }
+
+    .theme-toggle:hover {
+      filter: brightness(.98)
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius);
+      background: #e2e8f0;
+      box-shadow: var(--shadow)
+    }
+
+    .hero-img {
+      width: 100%;
+      display: block;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      opacity: .98;
+      filter: brightness(var(--hero-img-brightness));
+    }
+
+    .hero-content {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: flex-end;
+      background: linear-gradient(180deg, var(--hero-overlay-from) 40%, var(--hero-overlay-to) 100%);
+    }
+
+    .hero-text {
+      padding: 28px
+    }
+
+    .title {
+      margin: 0 0 6px;
+      font-size: clamp(24px, 3.2vw, 40px);
+      letter-spacing: .02em
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--muted)
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 28px;
+      margin-top: 28px
+    }
+
+    @media (max-width: 900px) {
+      .grid {
+        grid-template-columns: 1fr
+      }
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow)
+    }
+
+    .card>* {
+      padding: 20px
+    }
+
+    .card h2 {
+      margin: 0 0 8px;
+      font-size: clamp(18px, 2.4vw, 24px)
+    }
+
+    .card p {
+      margin: 0 0 10px;
+      line-height: 1.75;
+      color: inherit
+    }
+
+    .card ul {
+      margin: 0;
+      padding-left: 20px
+    }
+
+    .aside {
+      position: sticky;
+      top: 16px;
+      height: fit-content
+    }
+
+    .toc a {
+      display: block;
+      padding: 10px 14px;
+      border-bottom: 1px dashed var(--border);
+      color: inherit
+    }
+
+    .toc a:hover {
+      background: rgba(0, 0, 0, .04)
+    }
+
+    .pill {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      background: rgba(0, 0, 0, .04);
+      color: inherit;
+      border: 1px solid var(--border);
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px
+    }
+
+    [data-theme="dark"] .pill {
+      background: rgba(255, 255, 255, .06)
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 18px;
+      background: var(--brand);
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 10px
+    }
+
+    .back:hover {
+      filter: brightness(.95)
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <button class="theme-toggle" id="themeToggle" aria-pressed="false" title="切換主題">🌙 深色</button>
+
+    <!-- Hero -->
+    <section class="hero" id="top">
+      <img class="hero-img" id="heroImg" alt="spot hero" />
+      <div class="hero-content">
+        <div class="hero-text">
+          <h1 class="title" id="spotTitle">景點名稱</h1>
+          <p class="subtitle" id="spotSubtitle">地區／一句話亮點</p>
+          <div class="meta" aria-label="meta">
+            <span class="pill" id="metaBest">最佳：—</span>
+            <span class="pill" id="metaType">適合：—</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="grid">
+      <main class="content">
+        <article class="card" id="intro">
+          <div>
+            <h2>景點介紹</h2>
+            <p id="introText">以 URL 參數或 data.js 自動帶入；若無，這裡會顯示示範文字。</p>
+          </div>
+        </article>
+
+        <article class="card" id="access">
+          <div>
+            <h2>交通方式</h2>
+            <p id="accessText">JR／公車／自駕路線說明。</p>
+          </div>
+        </article>
+
+        <article class="card" id="tips">
+          <div>
+            <h2>遊玩建議</h2>
+            <ul id="tipsList">
+              <li>傍晚至夜間點燈時段最具氛圍。</li>
+              <li>冬季注意防滑與保暖。</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="card" id="nearby">
+          <div>
+            <h2>周邊順遊</h2>
+            <ul id="nearbyList">
+              <li>周邊景點或商店街。</li>
+            </ul>
+            <a id="backLink" class="back" href="#">← 返回地區</a>
+          </div>
+        </article>
+        
+      </main>
+
+      <aside class="aside">
+        <nav class="card toc" aria-label="頁內導覽">
+          <div>
+            <h2 style="padding:20px 20px 10px;margin:0">快速導覽</h2>
+            <a href="#intro">景點介紹</a>
+            <a href="#access">交通方式</a>
+            <a href="#tips">遊玩建議</a>
+            <a href="#nearby">周邊順遊</a>
+            <a href="#top">回到最上方 ↑</a>
+          </div>
+        </nav>
+      </aside>
+    </div>
+  </div>
+
+  <script type="module">
+    // ===== URL 參數 =====
+    const qp = new URLSearchParams(location.search);
+    const region = qp.get('region') || '';
+    const spotName = qp.get('spot') || qp.get('name') || '';
+    const imgParam = qp.get('img');
+    const subtitleParam = qp.get('subtitle');
+    const introParam = qp.get('intro');
+    const accessParam = qp.get('access');
+    const tipsParam = qp.get('tips'); // ; 分隔
+    const nearbyParam = qp.get('nearby'); // ; 分隔
+
+    const guessImg = region && spotName ? `../image/pic/${region}/${spotName}.jpg` : '';
+
+    const $ = (id) => document.getElementById(id);
+
+    // 頁面預設文案（先用 URL 參數帶入）
+    $('spotTitle').textContent = spotName || '景點名稱';
+    $('spotSubtitle').textContent = subtitleParam || (region ? `${region}｜亮點介紹` : '地區／一句話亮點');
+    $('heroImg').src = imgParam || guessImg || 'data:image/svg+xml,%3Csvg xmlns%3D"http://www.w3.org/2000/svg" viewBox%3D"0 0 1600 900"%3E%3Crect width%3D"1600" height%3D"900" fill%3D"%23e2e8f0"/%3E%3C/svg%3E';
+    if (introParam) $('introText').textContent = introParam;
+    if (accessParam) $('accessText').textContent = accessParam;
+    if (tipsParam) $('tipsList').innerHTML = tipsParam.split(';').map(s => `<li>${s.trim()}</li>`).join('');
+    if (nearbyParam) $('nearbyList').innerHTML = nearbyParam.split(';').map(s => `<li>${s.trim()}</li>`).join('');
+
+    // ===== 嘗試載入 data.js（若存在）覆蓋內容 =====
+    const DATA_CANDIDATES = ['../js/data.js', '../../js/data.js', './js/data.js', '../data.js'];
+    for (const p of DATA_CANDIDATES) {
+      try {
+        const mod = await import(p);
+        const dataset = mod.data || mod.default; if (!dataset) continue;
+        const r = dataset[region]; if (!r) break;
+        const spots = Array.isArray(r.景點) ? r.景點 : [];
+        const found = spots.find(s => (typeof s === 'string' ? s === spotName : s.名稱 === spotName));
+        if (!found) break;
+        const detail = typeof found === 'string' ? null : (found.詳細 || null);
+        if (found.名稱) $('spotTitle').textContent = found.名稱;
+        if (found.說明 || (detail && detail.副標)) $('spotSubtitle').textContent = (detail && detail.副標) || found.說明;
+        if (detail && detail.介紹) $('introText').textContent = detail.介紹;
+        if (detail && detail.交通) $('accessText').textContent = detail.交通;
+        if (detail && (detail.推薦 || detail.建議)) $('tipsList').innerHTML = (Array.isArray(detail.推薦 || detail.建議) ? (detail.推薦 || detail.建議) : String(detail.推薦 || detail.建議).split(';')).map(s => `<li>${s.trim()}</li>`).join('');
+        if (detail && detail.周邊) $('nearbyList').innerHTML = (Array.isArray(detail.周邊) ? detail.周邊 : String(detail.周邊).split(';')).map(s => `<li>${s.trim()}</li>`).join('');
+        if (detail && detail.最佳) $('metaBest').textContent = `最佳：${detail.最佳}`;
+        if (detail && detail.適合) $('metaType').textContent = `適合：${detail.適合}`;
+        const img = detail && detail.圖片 ? detail.圖片 : guessImg; if (img) $('heroImg').src = img;
+        break;
+      } catch (err) {/* 下一個路徑 */ }
+    }
+
+    // ===== 主題切換（localStorage + 系統偏好） =====
+    const key = 'spot-theme';
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const saved = localStorage.getItem(key);
+    const initial = saved || (prefersDark ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', initial);
+    const btn = $('themeToggle');
+    const setLabel = (mode) => { btn.textContent = mode === 'dark' ? '☀️ 淺色' : '🌙 深色'; btn.setAttribute('aria-pressed', String(mode === 'dark')); };
+    setLabel(initial);
+
+    btn.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem(key, next);
+      setLabel(next);
+    });
+
+    // 返回連結可帶地區錨點
+    const back = document.getElementById('backLink');
+    if (back) {
+      const url = new URL('japan_project.html', location.href); // 同層
+      if (typeof region === 'string' && region) {
+        url.hash = encodeURIComponent(region);
+      }
+      back.href = url.href;
+      back.addEventListener('click', (e) => {
+        e.preventDefault();
+        location.assign(url.href); // 保險跳轉
+      });
+    }
+
+  </script>
+</body>
+
+</html>
