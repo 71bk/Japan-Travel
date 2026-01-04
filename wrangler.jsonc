@@ -1,8 +1,8 @@
 {
-    "name": "japan-travel",
-    "compatibility_date": "2025-09-21",
-    "assets": {
-       "directory": "./build",
-        "not_found_handling": "single-page-application"
-    }
+  "name": "japan-travel",
+  "compatibility_date": "2025-09-21",
+  "assets": {
+    "directory": ".",
+    "not_found_handling": "single-page-application"
+  }
 }
