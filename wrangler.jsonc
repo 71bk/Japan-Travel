@@ -2,7 +2,7 @@
     "name": "japan-travel",
     "compatibility_date": "2025-09-21",
     "assets": {
-        "directory": "./dist",
+       "directory": "./build",
         "not_found_handling": "single-page-application"
     }
 }
